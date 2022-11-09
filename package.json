@@ -1,0 +1,18 @@
+{
+  "name": "jobify-ts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "private": "true",
+  "scripts": {
+    "server": "npm start --prefix server --ignore client",
+    "client": "npm run dev --prefix client",
+    "start": "concurrently \"npm:server\" \"npm:client\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^7.5.0"
+  }
+}

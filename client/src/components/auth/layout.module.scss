@@ -1,0 +1,22 @@
+.main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.375rem;
+  width: min(25rem, 100%);
+  background: white;
+  border-radius: 0.25rem;
+  border-top: 0.25rem solid color(primary, 500);
+  padding: 2rem 2.5rem;
+
+  p {
+    color: color(gray, 600);
+    margin-top: 1rem;
+  }
+}

@@ -1,0 +1,56 @@
+.header {
+  display: flex;
+  align-items: center;
+  min-height: $headerHeight;
+  z-index: 1;
+}
+
+.main {
+  display: flex;
+  align-items: center;
+
+  section {
+    display: grid;
+    align-items: center;
+    margin-top: -3rem;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3rem;
+
+    @include laptop {
+      grid-template-columns: unset;
+      gap: unset;
+      margin-top: unset;
+    }
+
+    svg {
+      @include laptop {
+        display: none;
+      }
+    }
+  }
+
+  article {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+
+    button {
+      padding: 0.75rem 2rem;
+      font-size: 1.25rem;
+    }
+  }
+
+  h1 {
+    font-weight: 700;
+
+    em {
+      color: color(primary, 500);
+    }
+  }
+
+  p {
+    color: color(gray, 600);
+    max-width: 60ch;
+  }
+}

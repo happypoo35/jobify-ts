@@ -1,0 +1,15 @@
+@function color($keys...) {
+  $value: $colors;
+
+  @each $key in $keys {
+    $value: map-get($value, $key);
+  }
+
+  @return $value;
+}
+
+@function shadow($key) {
+  $value: map-get($shadows, $key);
+
+  @return $value;
+}
