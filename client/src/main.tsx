@@ -7,7 +7,7 @@ import { trpc } from "./trpc";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import { Landing, Layout } from "./components";
+import { Auth, Landing, Layout } from "./components";
 
 import "@/styles/globals.scss";
 
@@ -28,6 +28,15 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Landing />,
+      },
+      {
+        element: <Auth.Layout />,
+        children: [
+          {
+            path: "/login",
+            element: <Auth.Login />,
+          },
+        ],
       },
     ],
   },
