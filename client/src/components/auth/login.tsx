@@ -72,10 +72,7 @@ const Login = () => {
           error={errors.password?.message}
           {...register("password")}
         />
-        <Button /* className="btn btn-block" */ /* type="submit" */ /* isLoading={isLoading} */
-        >
-          Submit
-        </Button>
+        <Button type="submit" /* isLoading={isLoading} */>Submit</Button>
       </section>
       <p>
         Not a member yet?{" "}
