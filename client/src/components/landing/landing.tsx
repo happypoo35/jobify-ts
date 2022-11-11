@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
-import { ReactComponent as JobifyLogo } from "@/assets/logo.svg";
 import { ReactComponent as HeroImg } from "@/assets/main-alternative.svg";
-import { Button } from "../shared";
+import { Button, Logo } from "../shared";
 
 import s from "./landing.module.scss";
 
@@ -9,9 +8,7 @@ const Landing = () => {
   return (
     <>
       <header className={s.header} data-container="fixed">
-        <Link to="/">
-          <JobifyLogo />
-        </Link>
+        <Logo />
       </header>
       <main className={s.main} data-container="fixed">
         <section aria-label="Welcome to jobify">

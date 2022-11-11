@@ -7,7 +7,7 @@ import { trpc } from "./trpc";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import { Auth, Landing, Layout } from "./components";
+import { Auth, Landing, Layout, Dashboard } from "./components";
 
 import "@/styles/globals.scss";
 
@@ -16,6 +16,12 @@ const trpcClient = trpc.createClient({
   links: [
     httpBatchLink({
       url: "http://localhost:8000/trpc",
+      fetch(url, options) {
+        return fetch(url, {
+          ...options,
+          credentials: "include",
+        });
+      },
     }),
   ],
 });
@@ -35,6 +41,20 @@ const router = createBrowserRouter([
           {
             path: "/login",
             element: <Auth.Login />,
+          },
+          {
+            path: "/register",
+            element: <Auth.Register />,
+          },
+        ],
+      },
+      {
+        element: <Dashboard.Layout />,
+        path: "/dashboard",
+        children: [
+          {
+            index: true,
+            element: <Dashboard.Stats />,
           },
         ],
       },

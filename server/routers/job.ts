@@ -10,4 +10,5 @@ export const jobRouter = router({
   list: publicProcedure.query(async () => {
     return await Job.find();
   }),
+  stats: publicProcedure.query(async () => {}),
 });

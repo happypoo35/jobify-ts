@@ -14,19 +14,14 @@ export interface UserInput {
 
 interface UserDocument extends UserInput, UserMethods, Document {
   _id: Types.ObjectId;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 interface UserMethods {
   createJWT(this: UserDocument): string;
   refreshJWT(user: UserDocument, req: Request, res: Response): void;
-  createAndSendJWT(
-    user: UserDocument,
-    req: Request,
-    res: Response,
-    code: number
-  ): void;
+  createAndSendJWT(user: UserDocument, req: Request, res: Response): void;
   comparePassword(
     this: UserDocument,
     candidatePassword: string
@@ -86,16 +81,17 @@ schema.methods.refreshJWT = function (user, req, res) {
 
   res.cookie("token", token, {
     maxAge: 24 * 60 * 60 * 1000,
-    secure,
+    secure: true,
     httpOnly: true,
+    sameSite: "none",
   });
 };
 
-schema.methods.createAndSendJWT = function (user, req, res, code) {
+schema.methods.createAndSendJWT = function (user, req, res) {
   user.refreshJWT(user, req, res);
   // user.password = undefined;
 
-  res.status(code).json({ user });
+  // res.status(code).json({ user });
 };
 
 schema.methods.comparePassword = async function (candidatePassword) {

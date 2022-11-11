@@ -1,11 +1,17 @@
 import { ButtonHTMLAttributes, PropsWithChildren } from "react";
 import s from "./button.module.scss";
 
-const Button: React.FC<
-  PropsWithChildren & ButtonHTMLAttributes<HTMLButtonElement>
-> = ({ children, ...props }) => {
+interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: string;
+}
+
+const Button: React.FC<PropsWithChildren & Props> = ({
+  children,
+  variant,
+  ...props
+}) => {
   return (
-    <button className={s.btn} {...props}>
+    <button className={s.btn} data-variant={variant} {...props}>
       {children}
     </button>
   );

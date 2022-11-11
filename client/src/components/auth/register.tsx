@@ -1,15 +1,28 @@
 import { Link, useNavigate } from "react-router-dom";
-import { Field, Button } from "components/Common";
+import { Input, Button, Form } from "../shared";
 
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
-import { useCreateUserMutation } from "app/api.auth";
+import { trpc } from "@/trpc";
+
+// import { useCreateUserMutation } from "app/api.auth";
+
+type FormData = {
+  name: string;
+  email: string;
+  password: string;
+};
 
 const Register = () => {
   const navigate = useNavigate();
-  const [createUser, { isLoading }] = useCreateUserMutation();
+  // const [createUser, { isLoading }] = useCreateUserMutation();
+
+  const utils = trpc.useContext();
+  const createUser = trpc.user.createUser.useMutation();
+
+  console.log(createUser);
 
   const schema = yup.object().shape({
     name: yup
@@ -32,50 +45,65 @@ const Register = () => {
     handleSubmit,
     setError,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(schema) });
+  } = useForm<FormData>({ resolver: yupResolver(schema) });
 
-  const onSubmit = async (data) => {
-    try {
-      await createUser(data).unwrap();
-      navigate("/dashboard", { replace: true });
-    } catch (err) {
-      if (err.data?.errors) {
-        err.data.errors.map((el) =>
-          setError(el.key, { type: "manual", message: el.msg })
-        );
-      }
-    }
+  const onSubmit = async (data: FormData) => {
+    console.log(data);
+
+    createUser.mutate(data, {
+      onSuccess: () => {
+        // navigate("/dashboard", { replace: true });
+        console.log("user created");
+      },
+      onError: (err) => {
+        console.log(err.data?.errObj?.cause);
+        // if (err.data?.errObj?.code === 11000 && err.data?.cause?.keyValue?.email) {
+        //   setError("email", {
+        //     type: "manual",
+        //     message: "User with this email already exists",
+        //   });
+        // }
+      },
+    });
   };
 
   return (
-    <form className="form" onSubmit={handleSubmit(onSubmit)}>
-      <h1 className="h3">Register</h1>
-      <div className="form-fields">
-        <Field
+    <Form onSubmit={handleSubmit(onSubmit)}>
+      <h1 data-h3>Register</h1>
+      <section>
+        <Input
           label="name"
           error={errors.name?.message}
           {...register("name")}
         />
-        <Field
+        <Input
           type="email"
           label="email"
           error={errors.email?.message}
           {...register("email")}
         />
-        <Field
+        <Input
           type="password"
           label="password"
           error={errors.password?.message}
           {...register("password")}
         />
-        <Button className="btn btn-block" type="submit" isLoading={isLoading}>
-          Submit
+        <Button
+          type="submit"
+          data-loading={
+            createUser.isLoading || undefined
+          } /* isLoading={isLoading} */
+        >
+          {createUser.isLoading ? "Loading..." : "Submit"}
         </Button>
-      </div>
+      </section>
       <p>
-        Already a member? <Link to="/login">Login</Link>
+        Already a member?{" "}
+        <Link to="/login" data-link>
+          Login
+        </Link>
       </p>
-    </form>
+    </Form>
   );
 };
 export default Register;
