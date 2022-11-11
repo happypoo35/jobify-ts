@@ -1,11 +1,25 @@
+import { NextFunction, Request, Response } from "express";
 import ApiError from "./custom.error.js";
 
-export const notFound = (req, res) => {
+interface ErrorObj {
+  code: number;
+  msg: string;
+  errors?: Record<string, any>;
+  _error?: any;
+  _stack?: string;
+}
+
+export const notFound = () => {
   throw new ApiError("Route does not exist", 404);
 };
 
-export const errorHandler = (err, req, res, next) => {
-  const error = {
+export const errorHandler = (
+  err: any,
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const error: ErrorObj = {
     code: err.code || 500,
     msg: err.message || "Something went wrong, try again later",
   };

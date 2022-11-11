@@ -7,6 +7,7 @@ import express from "express";
 import "express-async-errors";
 
 import userRouter from "./routes/user.route";
+import { errorHandler, notFound } from "./errors/error.middleware";
 
 const app = express();
 const port = process.env.PORT || 8000;
@@ -25,6 +26,10 @@ app.use(
 app.use(cookieParser());
 
 app.use("/api/v1/user", userRouter);
+
+// Errors
+app.use(notFound);
+app.use(errorHandler);
 
 const start = async () => {
   try {

@@ -39,6 +39,7 @@ export const protect = async (
 
 export const checkPermissions = async (
   req: RequestWithUser,
+  res: Response,
   next: NextFunction
 ) => {
   const { jobId } = req.params;
