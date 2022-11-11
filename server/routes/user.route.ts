@@ -6,8 +6,8 @@ import {
   updateUser,
   getUser,
   logout,
-  protect,
 } from "../controllers/user.controller";
+import { protect } from "../middlewares/auth.middleware";
 
 const apiLimiter = rateLimiter({
   windowMs: 15 * 60 * 1000,

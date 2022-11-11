@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import ApiError from "./custom.error";
+import ApiError from "../errors/custom.error";
 
 interface ErrorObj {
   code: number;
