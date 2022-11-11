@@ -7,6 +7,7 @@ import express from "express";
 import "express-async-errors";
 
 import userRouter from "./routes/user.route";
+import jobRouter from "./routes/job.route";
 import { errorHandler, notFound } from "./middlewares/error.middleware";
 
 const app = express();
@@ -26,6 +27,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use("/api/v1/user", userRouter);
+app.use("/api/v1/jobs", jobRouter);
 
 // Errors
 app.use(notFound);

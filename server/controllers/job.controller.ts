@@ -1,17 +1,21 @@
-import { NextFunction, Request, Response } from "express";
-import Job from "../models/job.model.js";
+import { Request, Response } from "express";
+import jobModel from "../models/job.model";
+
+interface QueryObj<T, K> {
+  [key: string]: T | K;
+}
 
 export const createJob = async (req: Request, res: Response) => {
   req.body.createdBy = req.user._id;
-  const job = await Job.create(req.body);
+  const job = await jobModel.create(req.body);
 
   res.status(201).json(job);
 };
 
-export const getAllJobs = async (req, res) => {
+export const getAllJobs = async (req: Request, res: Response) => {
   const { search, status, jobType, sort } = req.query;
 
-  const queryObj = {
+  const queryObj: QueryObj<typeof req.user._id, typeof req.query[0]> = {
     createdBy: req.user._id,
   };
 
@@ -25,7 +29,7 @@ export const getAllJobs = async (req, res) => {
     queryObj.position = { $regex: search, $options: "i" };
   }
 
-  let result = Job.find(queryObj);
+  let result = jobModel.find(queryObj);
 
   switch (sort) {
     case "oldest":
@@ -41,27 +45,27 @@ export const getAllJobs = async (req, res) => {
       result = result.sort("-createdAt");
   }
 
-  const page = +req.query.page || 1;
-  const limit = +req.query.limit || 12;
+  const page = Number(req.query.page) || 1;
+  const limit = Number(req.query.limit) || 12;
   const skip = (page - 1) * limit;
 
   const jobs = await result.skip(skip).limit(limit);
-  const nHits = await Job.countDocuments(queryObj);
+  const nHits = await jobModel.countDocuments(queryObj);
   const nPages = Math.ceil(nHits / limit);
 
   res.status(200).json({ nHits, nPages, jobs });
 };
 
-export const getJob = async (req, res) => {
+export const getJob = async (req: Request, res: Response) => {
   const { jobId } = req.params;
-  const job = await Job.findById(jobId);
+  const job = await jobModel.findById(jobId);
 
   res.status(200).json(job);
 };
 
-export const updateJob = async (req, res) => {
+export const updateJob = async (req: Request, res: Response) => {
   const { jobId } = req.params;
-  const job = await Job.findByIdAndUpdate(jobId, req.body, {
+  const job = await jobModel.findByIdAndUpdate(jobId, req.body, {
     new: true,
     runValidators: true,
   });
@@ -69,15 +73,15 @@ export const updateJob = async (req, res) => {
   res.status(200).json(job);
 };
 
-export const deleteJob = async (req, res) => {
+export const deleteJob = async (req: Request, res: Response) => {
   const { jobId } = req.params;
-  await Job.findByIdAndDelete(jobId, req.body);
+  await jobModel.findByIdAndDelete(jobId, req.body);
 
   res.status(204).json({ msg: "Job deleted" });
 };
 
-export const showStats = async (req, res) => {
-  let stats = await Job.aggregate([
+export const showStats = async (req: Request, res: Response) => {
+  let stats = await jobModel.aggregate([
     { $match: { createdBy: req.user._id } },
     { $group: { _id: "$status", count: { $sum: 1 } } },
   ]);
@@ -88,7 +92,7 @@ export const showStats = async (req, res) => {
     return acc;
   }, {});
 
-  let monthlyApplications = await Job.aggregate([
+  let monthlyApplications = await jobModel.aggregate([
     { $match: { createdBy: req.user._id } },
     {
       $group: {
