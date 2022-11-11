@@ -6,14 +6,14 @@ import {
   updateUser,
   getUser,
   logout,
-} from "../controllers/user.controller.js";
-import { protect } from "../middleware/auth.middleware.js";
+  protect,
+} from "../controllers/user.controller";
 
 const apiLimiter = rateLimiter({
   windowMs: 15 * 60 * 1000,
   max: 10,
   message:
-    "Too many requests from this IP address, please try again after 15 minutes",
+    "Too many requests from this IP address, please try again in 15 minutes",
 });
 
 const router = express.Router();

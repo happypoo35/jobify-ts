@@ -107,6 +107,6 @@ schema.methods.comparePassword = async function (candidatePassword) {
   return isMatch;
 };
 
-const userModel = model("UserInput", schema);
+const userModel = model("User", schema);
 
 export default userModel;

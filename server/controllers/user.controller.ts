@@ -1,24 +1,29 @@
 import jwt from "jsonwebtoken";
-import ApiError from "../errors/custom.error.js";
-import userModel from "../models/user.model.js";
-import Job from "../models/job.model.js";
+import ApiError from "../errors/custom.error";
+import userModel from "../models/user.model";
+import Job from "../models/job.model";
 import { NextFunction, Request, Response } from "express";
-import { RequestWithUser, Token } from "../types.js";
 
 // Middleware
 export const protect = async (
-  req: RequestWithUser,
+  req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  const { token } = req.cookies;
+  const { token }: { token: string | undefined } = req.cookies;
 
   if (!token) {
     throw new ApiError("Unauthorized. Please log in to gain access", 401);
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET) as Token;
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    console.log(decoded);
+
+    if (typeof decoded === "string") {
+      throw new ApiError("Invalid token", 401);
+    }
+
     const user = await userModel.findById(decoded.userId);
 
     if (!user) {
@@ -38,7 +43,7 @@ export const protect = async (
 };
 
 export const checkPermissions = async (
-  req: RequestWithUser,
+  req: Request,
   res: Response,
   next: NextFunction
 ) => {
@@ -57,7 +62,7 @@ export const checkPermissions = async (
 };
 
 // Routes
-export const getUser = async (req: RequestWithUser, res: Response) => {
+export const getUser = async (req: Request, res: Response) => {
   const user = await userModel.findById(req.user._id);
 
   res.status(200).json({ user });
@@ -94,7 +99,7 @@ export const login = async (req: Request, res: Response) => {
   user.createAndSendJWT(user, req, res, 200);
 };
 
-export const updateUser = async (req: RequestWithUser, res: Response) => {
+export const updateUser = async (req: Request, res: Response) => {
   const { name, lastName, email, location } = req.body;
 
   const user = await userModel.findByIdAndUpdate(
