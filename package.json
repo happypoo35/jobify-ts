@@ -7,7 +7,7 @@
   "scripts": {
     "server": "npm start --prefix server --ignore client",
     "client": "npm run dev --prefix client",
-    "start": "concurrently \"npm:server\" \"npm:client\""
+    "start": "concurrently -k -c \"auto\" \"npm:server\" \"npm:client\""
   },
   "keywords": [],
   "author": "",
