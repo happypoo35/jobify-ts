@@ -23,7 +23,7 @@ interface UserMethods {
   createJWT(): string;
   refreshJWT(req: Request, res: Response): void;
   createAndSendJWT(
-    user: User & UserMethods,
+    user: UserWithouPassword,
     req: Request,
     res: Response,
     code: number
@@ -93,12 +93,7 @@ schema.methods.refreshJWT = function (req, res) {
   });
 };
 
-schema.methods.createAndSendJWT = function (
-  user: UserWithouPassword,
-  req,
-  res,
-  code
-) {
+schema.methods.createAndSendJWT = function (user, req, res, code) {
   this.refreshJWT(req, res);
   user.password = undefined;
 
