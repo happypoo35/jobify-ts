@@ -5,8 +5,6 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
-import { trpc } from "@/trpc";
-
 // import { useCreateUserMutation } from "app/api.auth";
 
 type FormData = {
@@ -18,11 +16,6 @@ type FormData = {
 const Register = () => {
   const navigate = useNavigate();
   // const [createUser, { isLoading }] = useCreateUserMutation();
-
-  const utils = trpc.useContext();
-  const createUser = trpc.user.createUser.useMutation();
-
-  console.log(createUser);
 
   const schema = yup.object().shape({
     name: yup
@@ -49,22 +42,6 @@ const Register = () => {
 
   const onSubmit = async (data: FormData) => {
     console.log(data);
-
-    createUser.mutate(data, {
-      onSuccess: () => {
-        // navigate("/dashboard", { replace: true });
-        console.log("user created");
-      },
-      onError: (err) => {
-        console.log(err.data?.errObj?.cause);
-        // if (err.data?.errObj?.code === 11000 && err.data?.cause?.keyValue?.email) {
-        //   setError("email", {
-        //     type: "manual",
-        //     message: "User with this email already exists",
-        //   });
-        // }
-      },
-    });
   };
 
   return (
@@ -90,11 +67,10 @@ const Register = () => {
         />
         <Button
           type="submit"
-          data-loading={
-            createUser.isLoading || undefined
-          } /* isLoading={isLoading} */
+          // data-loading={isLoading || undefined}
         >
-          {createUser.isLoading ? "Loading..." : "Submit"}
+          {/* {createUser.isLoading ? "Loading..." : "Submit"} */}
+          Submit
         </Button>
       </section>
       <p>
