@@ -15,11 +15,9 @@ export interface User {
   updatedAt?: Date;
 }
 
-// export interface User extends UserInput, UserMethods {
-//   _id: string;
-//   createdAt?: Date;
-//   updatedAt?: Date;
-// }
+interface UserWithouPassword extends Omit<User, "password"> {
+  password: string | undefined;
+}
 
 interface UserMethods {
   createJWT(): string;
@@ -95,9 +93,14 @@ schema.methods.refreshJWT = function (req, res) {
   });
 };
 
-schema.methods.createAndSendJWT = function (user, req, res, code) {
+schema.methods.createAndSendJWT = function (
+  user: UserWithouPassword,
+  req,
+  res,
+  code
+) {
   this.refreshJWT(req, res);
-  // user.password = undefined;
+  user.password = undefined;
 
   res.status(code).json({ user });
 };

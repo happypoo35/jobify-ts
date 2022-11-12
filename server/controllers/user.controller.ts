@@ -27,14 +27,11 @@ export const login = async (req: Request, res: Response) => {
   }
 
   const user = await userModel.findOne({ email }).select("+password");
-  if (!user) {
-    throw new ApiError("Invalid username or password", 401);
-  }
+  if (!user) throw new ApiError("Invalid username or password", 401);
 
   const isPasswordCorrect = await user.comparePassword(password);
-  if (!isPasswordCorrect) {
+  if (!isPasswordCorrect)
     throw new ApiError("Invalid username or password", 401);
-  }
 
   user.createAndSendJWT(user, req, res, 200);
 };
