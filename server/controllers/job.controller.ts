@@ -19,15 +19,9 @@ export const getAllJobs = async (req: Request, res: Response) => {
     createdBy: req.user._id,
   };
 
-  if (status) {
-    queryObj.status = status;
-  }
-  if (jobType) {
-    queryObj.jobType = jobType;
-  }
-  if (search) {
-    queryObj.position = { $regex: search, $options: "i" };
-  }
+  if (status) queryObj.status = status;
+  if (jobType) queryObj.jobType = jobType;
+  if (search) queryObj.position = { $regex: search, $options: "i" };
 
   let result = jobModel.find(queryObj);
 
