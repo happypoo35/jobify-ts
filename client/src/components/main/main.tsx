@@ -18,8 +18,6 @@ const Main = () => {
     if (!user) refetch();
   }, [isAuth, user, refetch]);
 
-  console.log({ user, isAuth });
-
   if (!user && !isAuth) return <Landing />;
 
   return <Dashboard />;

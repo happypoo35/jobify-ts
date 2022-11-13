@@ -1,6 +1,11 @@
 import { api } from "./api";
 import { setAlert } from "@/features/global.slice";
 
+export interface Stats {
+  monthlyApplications: { date: string; count: number }[];
+  stats: { pending?: number; interview?: number; declined?: number };
+}
+
 export const jobsApi = api
   .enhanceEndpoints({
     addTagTypes: ["Jobs", "Job", "Stats"],
@@ -60,8 +65,8 @@ export const jobsApi = api
         }),
         invalidatesTags: ["Jobs", "Stats"],
       }),
-      getStats: build.query({
-        query: () => "jobs/stats",
+      getStats: build.query<Stats, void>({
+        query: () => ({ url: "jobs/stats", credentials: "include" }),
         providesTags: ["Stats"],
       }),
     }),

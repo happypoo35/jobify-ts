@@ -40,7 +40,7 @@ const Layout = () => {
             </Button>
           </div>
         </header>
-        <main>
+        <main data-container>
           <Outlet />
         </main>
       </div>

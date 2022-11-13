@@ -12,17 +12,6 @@ type FormData = {
   password: string;
 };
 
-interface ErrorObj {
-  status: number;
-  data: {
-    code: number;
-    msg: string;
-    errors?: Record<string, any>;
-    _error?: any;
-    _stack?: string;
-  };
-}
-
 const schema = yup.object().shape({
   email: yup
     .string()
@@ -40,7 +29,6 @@ const Login = () => {
     handleSubmit,
     setError,
     clearErrors,
-    watch,
     formState: { errors },
   } = useForm<FormData>({
     resolver: yupResolver(schema),
@@ -61,7 +49,7 @@ const Login = () => {
       });
       setError("password", {
         type: "manual",
-        message: err?.data?.msg ?? "Неверный email или пароль",
+        message: err?.data?.msg || "Incorrect email or password",
       });
       setTimeout(() => {
         clearErrors();
@@ -85,8 +73,8 @@ const Login = () => {
           error={errors.password?.message}
           {...register("password")}
         />
-        <Button type="submit" data-loading={isLoading || undefined}>
-          {isLoading ? "Loading..." : "Submit"}
+        <Button type="submit" isLoading={isLoading}>
+          Submit
         </Button>
       </section>
       <p>

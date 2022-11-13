@@ -1,0 +1,79 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4rem;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 1rem;
+  width: 100%;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background: white;
+  border-radius: 0.25rem;
+  border-bottom: 0.25rem solid;
+  padding: 2rem;
+
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .count {
+      display: flex;
+      align-items: center;
+      font-size: 3.125rem;
+      font-weight: 700;
+      height: 5.5rem;
+    }
+
+    .icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: gray;
+      font-size: 2rem;
+      width: 4.375rem;
+      height: 3.825rem;
+      border-radius: 0.25rem;
+    }
+  }
+}
+
+.chart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  width: 100%;
+
+  header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+
+    p {
+      font-size: 0.875rem;
+      color: color(gray, 400);
+    }
+  }
+
+  .cwrapper {
+    position: relative;
+    width: calc(100% + 3rem);
+    left: -1.5rem;
+  }
+
+  tspan {
+    font-size: 0.75rem;
+    fill: color(gray, 500);
+  }
+}
