@@ -1,13 +1,18 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { RootState } from "./rootReducer";
+import { RootState } from "@/app/store";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface InitialState {
-  alert: null;
-  page: number;
-  limit: null;
+interface Alert {
+  type: string;
+  msg: string;
 }
 
-const initialState: InitialState = {
+interface GlobalState {
+  alert: Alert | null;
+  page: number;
+  limit: number | null;
+}
+
+const initialState: GlobalState = {
   alert: null,
   page: 1,
   limit: null,
@@ -17,13 +22,13 @@ export const globalSlice = createSlice({
   name: "global",
   initialState,
   reducers: {
-    setAlert: (state, { payload }) => {
+    setAlert: (state, { payload }: PayloadAction<GlobalState["alert"]>) => {
       state.alert = payload;
     },
-    setPage: (state, { payload }) => {
+    setPage: (state, { payload }: PayloadAction<GlobalState["page"]>) => {
       state.page = payload;
     },
-    setLimit: (state, { payload }) => {
+    setLimit: (state, { payload }: PayloadAction<GlobalState["limit"]>) => {
       state.limit = payload;
     },
   },

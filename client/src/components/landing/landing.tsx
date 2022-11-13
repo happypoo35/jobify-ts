@@ -3,6 +3,7 @@ import { ReactComponent as HeroImg } from "@/assets/main-alternative.svg";
 import { Button, Logo } from "../shared";
 
 import s from "./landing.module.scss";
+import { ButtonLink } from "../shared/button";
 
 const Landing = () => {
   return (
@@ -22,9 +23,7 @@ const Landing = () => {
               quinoa lo-fi tote bag adaptogen everyday carry meggings brunch
               narwhal.
             </p>
-            <Button>
-              <Link to="/login">Get started</Link>
-            </Button>
+            <ButtonLink to="/login">Get started</ButtonLink>
           </article>
           <HeroImg />
         </section>

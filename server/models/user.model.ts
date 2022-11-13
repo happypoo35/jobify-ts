@@ -76,8 +76,8 @@ schema.pre("save", async function () {
 });
 
 schema.methods.createJWT = function () {
-  return jwt.sign({ userId: this._id }, process.env.JWT_SECRET as string, {
-    expiresIn: process.env.JWT_LIFETIME,
+  return jwt.sign({ userId: this._id }, process.env.JWT_SECRET!, {
+    expiresIn: process.env.JWT_LIFETIME!,
   });
 };
 
@@ -87,7 +87,7 @@ schema.methods.refreshJWT = function (req, res) {
 
   res.cookie("token", token, {
     maxAge: 24 * 60 * 60 * 1000,
-    secure,
+    secure: true,
     httpOnly: true,
     sameSite: "none",
   });
@@ -97,7 +97,7 @@ schema.methods.createAndSendJWT = function (user, req, res, code) {
   this.refreshJWT(req, res);
   user.password = undefined;
 
-  res.status(code).json({ user });
+  res.status(code).json(user);
 };
 
 schema.methods.comparePassword = async function (candidatePassword) {

@@ -1,6 +1,3 @@
-import Layout from "./layout";
-import Stats from "./stats";
+import Dashboard from "./layout";
 
-const components = { Layout, Stats };
-
-export default components;
+export default Dashboard;

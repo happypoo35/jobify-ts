@@ -4,13 +4,24 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
-// import { useLoginMutation } from "app/api.auth";
+import { useLoginMutation } from "@/app/auth.api";
 import { Button, Form, Input } from "../shared";
 
 type FormData = {
   email: string;
   password: string;
 };
+
+interface ErrorObj {
+  status: number;
+  data: {
+    code: number;
+    msg: string;
+    errors?: Record<string, any>;
+    _error?: any;
+    _stack?: string;
+  };
+}
 
 const schema = yup.object().shape({
   email: yup
@@ -22,7 +33,7 @@ const schema = yup.object().shape({
 
 const Login = () => {
   const navigate = useNavigate();
-  // const [login, { isLoading }] = useLoginMutation();
+  const [login, { isLoading }] = useLoginMutation();
 
   const {
     register,
@@ -38,22 +49,24 @@ const Login = () => {
   const onSubmit = async (data: FormData) => {
     console.log(data);
 
-    // try {
-    //   await login(data).unwrap();
-    //   navigate("/dashboard", { replace: true });
-    // } catch (err) {
-    //   setError("email", {
-    //     type: "manual",
-    //     message: ` `,
-    //   });
-    //   setError("password", {
-    //     type: "manual",
-    //     message: err.data.msg,
-    //   });
-    //   setTimeout(() => {
-    //     clearErrors();
-    //   }, 4000);
-    // }
+    try {
+      await login(data).unwrap();
+      navigate("/", { replace: true });
+    } catch (err: any) {
+      console.log(err);
+
+      setError("email", {
+        type: "manual",
+        message: ` `,
+      });
+      setError("password", {
+        type: "manual",
+        message: err?.data?.msg ?? "Неверный email или пароль",
+      });
+      setTimeout(() => {
+        clearErrors();
+      }, 4000);
+    }
   };
 
   return (
@@ -72,7 +85,9 @@ const Login = () => {
           error={errors.password?.message}
           {...register("password")}
         />
-        <Button type="submit" /* isLoading={isLoading} */>Submit</Button>
+        <Button type="submit" data-loading={isLoading || undefined}>
+          {isLoading ? "Loading..." : "Submit"}
+        </Button>
       </section>
       <p>
         Not a member yet?{" "}

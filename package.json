@@ -5,9 +5,9 @@
   "main": "index.js",
   "private": "true",
   "scripts": {
-    "server": "npm start --prefix server --ignore client",
+    "server": "npm run dev --prefix server --ignore client",
     "client": "npm run dev --prefix client",
-    "start": "concurrently -k -c \"auto\" \"npm:server\" \"npm:client\""
+    "dev": "concurrently -k -c \"auto\" \"npm:server\" \"npm:client\""
   },
   "keywords": [],
   "author": "",

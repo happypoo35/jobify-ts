@@ -62,5 +62,5 @@ export const logout = (req: Request, res: Response) => {
     httpOnly: true,
   });
 
-  res.status(204).json({ msg: "Logged out" });
+  res.status(204).send("Logged out");
 };

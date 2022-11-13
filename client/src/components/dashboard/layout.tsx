@@ -3,11 +3,19 @@ import { Outlet } from "react-router-dom";
 import { FaAlignLeft } from "react-icons/fa";
 import Sidebar from "./sidebar";
 import { Button, Logo } from "../shared";
+import { useLogoutMutation } from "@/app/auth.api";
 
 import s from "./layout.module.scss";
 
 const Layout = () => {
   const [isSidebar, setIsSidebar] = useState(true);
+  const [logout, { isLoading }] = useLogoutMutation();
+
+  const handleLogout = async () => {
+    try {
+      await logout().unwrap();
+    } catch (err) {}
+  };
 
   return (
     <div className={s.dashboard}>
@@ -25,10 +33,10 @@ const Layout = () => {
             <h1 data-h3>Dashboard</h1>
             <Logo className={s.logo} />
             <Button
-            // onClick={handleLogout}
-            // isLoading={isLoading}
+              onClick={handleLogout}
+              data-loading={isLoading || undefined}
             >
-              Logout
+              {isLoading ? "Loading..." : "Logout"}
             </Button>
           </div>
         </header>

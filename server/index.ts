@@ -1,3 +1,4 @@
+import "dotenv/config";
 import mongoose from "mongoose";
 import cors from "cors";
 import cookieParser from "cookie-parser";
@@ -18,7 +19,7 @@ if (process.env.NODE_ENV === "development") {
 }
 app.use(
   cors({
-    origin: "http://127.0.0.1:5173",
+    origin: ["http://127.0.0.1:5173", "http://localhost:5173"],
     credentials: true,
   })
 );
@@ -35,7 +36,7 @@ app.use(errorHandler);
 
 const start = async () => {
   try {
-    await mongoose.connect(process.env.MONGO_URI);
+    await mongoose.connect(process.env.MONGO_URI!);
     console.log("DB connected");
     app.listen(port, () => {
       console.log(`Server is listening on port ${port}...`);

@@ -15,7 +15,7 @@ export const protect = async (
     throw new ApiError("Unauthorized. Please log in to gain access", 401);
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET!);
 
     if (typeof decoded === "string") throw new ApiError("Invalid token", 401);
 

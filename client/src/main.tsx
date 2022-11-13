@@ -3,19 +3,31 @@ import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import { store } from "./app/store";
-import { Auth, Landing, Layout, Dashboard } from "./components";
+import store from "./app/store";
+import { Auth, Layout, Main, Stats } from "./components";
 
 import "@/styles/globals.scss";
+import { authApi } from "./app/auth.api";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
+    // loader: async () => {
+    //   const promise = store.dispatch(authApi.endpoints.getUser.initiate());
+    //   await promise;
+    //   promise.unsubscribe();
+    // },
     children: [
       {
-        index: true,
-        element: <Landing />,
+        path: "/",
+        element: <Main />,
+        children: [
+          {
+            index: true,
+            element: <Stats />,
+          },
+        ],
       },
       {
         element: <Auth.Layout />,
@@ -30,16 +42,16 @@ const router = createBrowserRouter([
           },
         ],
       },
-      {
-        element: <Dashboard.Layout />,
-        path: "/dashboard",
-        children: [
-          {
-            index: true,
-            element: <Dashboard.Stats />,
-          },
-        ],
-      },
+      // {
+      //   element: <Dashboard.Layout />,
+      //   path: "/dashboard",
+      //   children: [
+      //     {
+      //       index: true,
+      //       element: <Dashboard.Stats />,
+      //     },
+      //   ],
+      // },
     ],
   },
 ]);

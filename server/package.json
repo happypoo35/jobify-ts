@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "start": "ts-node-dev --require dotenv/config index.ts"
+    "dev": "ts-node-dev index.ts"
   },
   "keywords": [],
   "author": "",
