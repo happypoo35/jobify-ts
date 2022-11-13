@@ -1,21 +1,16 @@
 import { Link, useNavigate } from "react-router-dom";
-import { Input, Button, Form } from "../shared";
 
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
-// import { useCreateUserMutation } from "app/api.auth";
+import { RegisterRequest, useCreateUserMutation } from "@/app/auth.api";
 
-type FormData = {
-  name: string;
-  email: string;
-  password: string;
-};
+import { Input, Button, Form } from "../shared";
 
 const Register = () => {
   const navigate = useNavigate();
-  // const [createUser, { isLoading }] = useCreateUserMutation();
+  const [createUser, { isLoading }] = useCreateUserMutation();
 
   const schema = yup.object().shape({
     name: yup
@@ -38,9 +33,9 @@ const Register = () => {
     handleSubmit,
     setError,
     formState: { errors },
-  } = useForm<FormData>({ resolver: yupResolver(schema) });
+  } = useForm<RegisterRequest>({ resolver: yupResolver(schema) });
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (data: RegisterRequest) => {
     console.log(data);
   };
 
@@ -65,11 +60,7 @@ const Register = () => {
           error={errors.password?.message}
           {...register("password")}
         />
-        <Button
-          type="submit"
-          // data-loading={isLoading || undefined}
-        >
-          {/* {createUser.isLoading ? "Loading..." : "Submit"} */}
+        <Button type="submit" isLoading={isLoading}>
           Submit
         </Button>
       </section>

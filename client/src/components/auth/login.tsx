@@ -4,13 +4,9 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
-import { useLoginMutation } from "@/app/auth.api";
-import { Button, Form, Input } from "../shared";
+import { LoginRequest, useLoginMutation } from "@/app/auth.api";
 
-type FormData = {
-  email: string;
-  password: string;
-};
+import { Button, Form, Input } from "../shared";
 
 const schema = yup.object().shape({
   email: yup
@@ -30,11 +26,11 @@ const Login = () => {
     setError,
     clearErrors,
     formState: { errors },
-  } = useForm<FormData>({
+  } = useForm<LoginRequest>({
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (data: LoginRequest) => {
     console.log(data);
 
     try {

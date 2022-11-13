@@ -1,5 +1,4 @@
 import { api } from "./api";
-import { setAlert } from "@/features/global.slice";
 import { clearUser } from "@/features/user.slice";
 
 export interface User {
@@ -21,7 +20,7 @@ export interface LoginRequest {
   password: string;
 }
 
-export interface CreateRequest extends LoginRequest {
+export interface RegisterRequest extends LoginRequest {
   name: string;
 }
 
@@ -31,7 +30,7 @@ export const authApi = api
   })
   .injectEndpoints({
     endpoints: (build) => ({
-      createUser: build.mutation<User, CreateRequest>({
+      createUser: build.mutation<User, RegisterRequest>({
         query: (body) => ({
           url: "user/register",
           method: "POST",
@@ -83,12 +82,6 @@ export const authApi = api
         async onQueryStarted(_, { queryFulfilled, dispatch }) {
           try {
             await queryFulfilled;
-            dispatch(
-              setAlert({
-                type: "success",
-                msg: "Profile updated!",
-              })
-            );
           } catch (err) {}
         },
       }),

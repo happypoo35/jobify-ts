@@ -11,14 +11,32 @@
     background: color(primary, 700);
   }
 
-  &[data-loading] {
+  &[data-loading],
+  &[data-success] {
     pointer-events: none;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
+  }
+
+  &[data-loading] {
     background: color(primary, 700);
     color: color(primary, 100);
+  }
+
+  &[data-success] {
+    svg {
+      font-size: 1rem;
+    }
+  }
+
+  &[data-success="true"] {
+    background: color(green, 450);
+  }
+
+  &[data-success="false"] {
+    background: color(red, 450);
   }
 
   // &-block {

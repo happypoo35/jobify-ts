@@ -1,15 +1,17 @@
-import { selectAlert } from "@/features/global.slice";
 import { ButtonHTMLAttributes, PropsWithChildren } from "react";
-import { useSelector } from "react-redux";
 import { Link, LinkProps } from "react-router-dom";
+import { FiCheckCircle, FiAlertCircle } from "react-icons/fi";
+
 import { ReactComponent as Spinner } from "@/assets/spinner.svg";
-import { FiCheckCircle } from "react-icons/fi";
+import { Alert } from "@/hooks/useAlert";
 
 import s from "./button.module.scss";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: string;
   isLoading?: boolean;
+  isSuccess?: boolean;
+  alert?: Alert;
 }
 
 interface ButtonLinkProps extends LinkProps {
@@ -20,17 +22,16 @@ const Button: React.FC<PropsWithChildren & ButtonProps> = ({
   children,
   variant,
   isLoading,
+  alert,
   ...props
 }) => {
-  const alert = useSelector(selectAlert);
-
   const message = isLoading ? (
     <>
       <Spinner /> Processing...
     </>
   ) : alert ? (
     <>
-      <FiCheckCircle /> {alert.msg}
+      {alert.isSuccess ? <FiCheckCircle /> : <FiAlertCircle />} {alert.message}
     </>
   ) : (
     children
@@ -40,6 +41,7 @@ const Button: React.FC<PropsWithChildren & ButtonProps> = ({
     <button
       className={s.btn}
       data-loading={isLoading || undefined}
+      data-success={alert ? alert.isSuccess : undefined}
       data-variant={variant}
       {...props}
     >

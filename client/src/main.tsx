@@ -4,10 +4,10 @@ import { Provider } from "react-redux";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import store from "./app/store";
-import { Auth, Layout, Main, Stats } from "./components";
+import { Auth, Layout, Main, Profile, Stats } from "./components";
+import { authApi } from "./app/auth.api";
 
 import "@/styles/globals.scss";
-import { authApi } from "./app/auth.api";
 
 const router = createBrowserRouter([
   {
@@ -27,17 +27,21 @@ const router = createBrowserRouter([
             index: true,
             element: <Stats />,
           },
+          {
+            path: "profile",
+            element: <Profile />,
+          },
         ],
       },
       {
         element: <Auth.Layout />,
         children: [
           {
-            path: "/login",
+            path: "login",
             element: <Auth.Login />,
           },
           {
-            path: "/register",
+            path: "register",
             element: <Auth.Register />,
           },
         ],

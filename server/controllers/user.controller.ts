@@ -5,7 +5,7 @@ import { Request, Response } from "express";
 export const getUser = async (req: Request, res: Response) => {
   const user = await userModel.findById(req.user._id);
 
-  res.status(200).json({ user });
+  res.status(200).json(user);
 };
 
 export const register = async (req: Request, res: Response) => {
@@ -50,7 +50,7 @@ export const updateUser = async (req: Request, res: Response) => {
     { new: true, runValidators: true }
   );
 
-  res.status(200).json({ user });
+  res.status(200).json(user);
 };
 
 export const logout = (req: Request, res: Response) => {

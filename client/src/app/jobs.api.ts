@@ -1,5 +1,4 @@
 import { api } from "./api";
-import { setAlert } from "@/features/global.slice";
 
 export interface Stats {
   monthlyApplications: { date: string; count: number }[];
@@ -19,17 +18,17 @@ export const jobsApi = api
           body,
         }),
         invalidatesTags: ["Jobs", "Stats"],
-        async onQueryStarted(_, { queryFulfilled, dispatch }) {
-          try {
-            await queryFulfilled;
-            dispatch(
-              setAlert({
-                type: "success",
-                msg: "Job created!",
-              })
-            );
-          } catch (err) {}
-        },
+        // async onQueryStarted(_, { queryFulfilled, dispatch }) {
+        //   try {
+        //     await queryFulfilled;
+        //     dispatch(
+        //       setAlert({
+        //         type: "success",
+        //         msg: "Job created!",
+        //       })
+        //     );
+        //   } catch (err) {}
+        // },
       }),
       getAllJobs: build.query({
         query: (search) => `jobs${search && `?${search}`}`,
@@ -46,17 +45,17 @@ export const jobsApi = api
           body,
         }),
         invalidatesTags: ["Jobs", "Job"],
-        async onQueryStarted(_, { queryFulfilled, dispatch }) {
-          try {
-            await queryFulfilled;
-            dispatch(
-              setAlert({
-                type: "success",
-                msg: "Job updated!",
-              })
-            );
-          } catch (err) {}
-        },
+        // async onQueryStarted(_, { queryFulfilled, dispatch }) {
+        //   try {
+        //     await queryFulfilled;
+        //     dispatch(
+        //       setAlert({
+        //         type: "success",
+        //         msg: "Job updated!",
+        //       })
+        //     );
+        //   } catch (err) {}
+        // },
       }),
       deleteJob: build.mutation({
         query: (jobId) => ({
