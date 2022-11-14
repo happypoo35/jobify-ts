@@ -12,9 +12,11 @@ import { useGetStatsQuery } from "@/app/jobs.api";
 import { ReactComponent as Spinner } from "@/assets/spinner.svg";
 
 import s from "./stats.module.scss";
+import { useLocale } from "@/hooks";
 
 const Stats = () => {
   const { data: stats, isLoading } = useGetStatsQuery();
+  const localeDate = useLocale({ options: { day: undefined } });
 
   const data = [
     {
@@ -44,11 +46,7 @@ const Stats = () => {
     if (stats && stats.monthlyApplications.length > 0) {
       return stats.monthlyApplications;
     }
-    const currentDate = new Date(Date.now()).toLocaleString("en-EN", {
-      year: "numeric",
-      month: "short",
-    });
-    return [{ date: currentDate, count: 0 }];
+    return [{ date: localeDate(Date.now()), count: 0 }];
   };
 
   return (

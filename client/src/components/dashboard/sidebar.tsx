@@ -14,7 +14,7 @@ const navItems = [
   },
   {
     name: "All Jobs",
-    slug: "all-jobs",
+    slug: "jobs",
     icon: <FiLayers />,
   },
   {

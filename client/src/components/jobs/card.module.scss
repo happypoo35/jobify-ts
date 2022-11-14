@@ -1,0 +1,113 @@
+.card {
+  background: white;
+  border-radius: 0.25rem;
+  width: 100%;
+
+  header,
+  .content {
+    padding: 1rem 1.5rem;
+  }
+
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    border-bottom: 1px solid color(gray, 100);
+  }
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  min-width: 0;
+}
+
+.text {
+  min-width: 0;
+
+  h3,
+  p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  p {
+    color: color(gray, 400);
+  }
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 0.25rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
+  background: color(primary, 500);
+}
+
+.content {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+
+  &:first-child {
+    span {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+  }
+
+  span {
+    text-transform: capitalize;
+    color: color(gray, 600);
+    font-size: 0.875rem;
+  }
+
+  svg {
+    color: color(gray, 400);
+    min-width: 1rem;
+  }
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.25rem;
+  padding: 0.25rem 1.25rem;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  width: fit-content;
+
+  &[data-status="pending"] {
+    background: hsl(45, 90%, 90%);
+    color: hsl(42, 74%, 51%);
+  }
+
+  &[data-status="interview"] {
+    background: hsl(221, 68%, 93%);
+    color: hsl(227, 50%, 59%);
+  }
+
+  &[data-status="declined"] {
+    background: hsl(0, 100%, 97%);
+    color: hsl(0, 57%, 63%);
+  }
+}

@@ -1,5 +1,23 @@
 import { api } from "./api";
 
+export interface Job {
+  _id: string;
+  company: string;
+  position: string;
+  status: "interview" | "declined" | "pending";
+  jobType: "full-time" | "part-time" | "remote" | "internship";
+  jobLocation: string;
+  createdBy: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface JobsObj {
+  jobs: Job[];
+  nHits: number;
+  nPages: number;
+}
+
 export interface Stats {
   monthlyApplications: { date: string; count: number }[];
   stats: { pending?: number; interview?: number; declined?: number };
@@ -30,9 +48,10 @@ export const jobsApi = api
         //   } catch (err) {}
         // },
       }),
-      getAllJobs: build.query({
+      getAllJobs: build.query<JobsObj, any>({
         query: (search) => ({
-          url: `jobs${search && `?${search}`}`,
+          url: "jobs",
+          params: search,
           credentials: "include",
         }),
         providesTags: ["Jobs"],
@@ -85,4 +104,5 @@ export const {
   useUpdateJobMutation,
   useDeleteJobMutation,
   useGetStatsQuery,
+  usePrefetch,
 } = jobsApi;
