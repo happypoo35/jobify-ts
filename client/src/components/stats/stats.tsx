@@ -89,31 +89,33 @@ const Stats = () => {
           />
         ) : (
           <div className={s.cwrapper}>
-            <ResponsiveContainer height={300}>
-              <LineChart data={statsData()}>
-                <Line
-                  type="monotone"
-                  dataKey="count"
-                  stroke="hsl(185, 62%, 45%)"
-                />
-                <CartesianGrid
-                  stroke="hsl(210, 31%, 85%)"
-                  strokeDasharray="5 5"
-                />
-                <XAxis
-                  stroke="hsl(211, 27%, 70%)"
-                  dataKey="date"
-                  tickMargin={10}
-                />
-                <YAxis stroke="hsl(211, 27%, 70%)" allowDecimals={false} />
-                <Tooltip
-                  wrapperStyle={{ outline: "none" }}
-                  contentStyle={{
-                    fontSize: ".75rem",
-                  }}
-                />
-              </LineChart>
-            </ResponsiveContainer>
+            <div className={s.ccontainer}>
+              <ResponsiveContainer height={300}>
+                <LineChart data={statsData()}>
+                  <Line
+                    type="monotone"
+                    dataKey="count"
+                    stroke="hsl(185, 62%, 45%)"
+                  />
+                  <CartesianGrid
+                    stroke="hsl(210, 31%, 85%)"
+                    strokeDasharray="5 5"
+                  />
+                  <XAxis
+                    stroke="hsl(211, 27%, 70%)"
+                    dataKey="date"
+                    tickMargin={10}
+                  />
+                  <YAxis stroke="hsl(211, 27%, 70%)" allowDecimals={false} />
+                  <Tooltip
+                    wrapperStyle={{ outline: "none" }}
+                    contentStyle={{
+                      fontSize: ".75rem",
+                    }}
+                  />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
           </div>
         )}
       </section>

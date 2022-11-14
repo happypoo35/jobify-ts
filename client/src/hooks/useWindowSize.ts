@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 
 interface WindowSize {
   width: number;
@@ -22,7 +22,7 @@ const useWindowSize = () => {
   }, []);
 
   const desktop = windowSize.width > 1024;
-  const tablet = windowSize.width <= 768;
+  const tablet = useMemo(() => windowSize.width <= 768, [windowSize.width]);
   const mobile = windowSize.width <= 576;
 
   return { desktop, tablet, mobile, windowSize };

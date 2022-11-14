@@ -6,9 +6,14 @@ import { Button, Logo } from "../shared";
 import { useLogoutMutation } from "@/app/auth.api";
 
 import s from "./layout.module.scss";
+import { useMediaQuery } from "@/hooks";
 
 const Layout = () => {
-  const [isSidebar, setIsSidebar] = useState(true);
+  const tablet = useMediaQuery("(max-width: 768px)");
+  const [sidebar, setSidebar] = useState({
+    active: true,
+    animateOnClose: false,
+  });
   const [logout, { isLoading }] = useLogoutMutation();
 
   const handleLogout = async () => {
@@ -17,26 +22,33 @@ const Layout = () => {
     } catch (err) {}
   };
 
+  const handleToggle = () => {
+    if (sidebar.active) {
+      tablet
+        ? setSidebar((p) => ({ ...p, animateOnClose: true }))
+        : setSidebar((p) => ({ ...p, active: false }));
+    } else {
+      setSidebar((p) => ({ ...p, active: true }));
+    }
+  };
+
   return (
     <div className={s.dashboard}>
-      <Sidebar isSidebar={isSidebar} setIsSidebar={setIsSidebar} />
+      <Sidebar sidebar={sidebar} tablet={tablet} setSidebar={setSidebar} />
       <div className={s.content}>
         <header className={s.header}>
           <div data-container>
             <button
               className={s.hamburger}
               aria-label="toggle menu"
-              onClick={() => setIsSidebar((p) => (p = !p))}
+              onClick={handleToggle}
             >
               <FaAlignLeft />
             </button>
             <h1 data-h3>Dashboard</h1>
             <Logo className={s.logo} />
-            <Button
-              onClick={handleLogout}
-              data-loading={isLoading || undefined}
-            >
-              {isLoading ? "Loading..." : "Logout"}
+            <Button onClick={handleLogout} isLoading={isLoading}>
+              Logout
             </Button>
           </div>
         </header>

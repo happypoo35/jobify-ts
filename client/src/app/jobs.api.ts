@@ -31,7 +31,10 @@ export const jobsApi = api
         // },
       }),
       getAllJobs: build.query({
-        query: (search) => `jobs${search && `?${search}`}`,
+        query: (search) => ({
+          url: `jobs${search && `?${search}`}`,
+          credentials: "include",
+        }),
         providesTags: ["Jobs"],
       }),
       getJob: build.query({
@@ -65,7 +68,10 @@ export const jobsApi = api
         invalidatesTags: ["Jobs", "Stats"],
       }),
       getStats: build.query<Stats, void>({
-        query: () => ({ url: "jobs/stats", credentials: "include" }),
+        query: () => ({
+          url: "jobs/stats",
+          credentials: "include",
+        }),
         providesTags: ["Stats"],
       }),
     }),

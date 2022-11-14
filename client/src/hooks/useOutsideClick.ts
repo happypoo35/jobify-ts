@@ -7,7 +7,12 @@ const useOutsideClick = <T extends HTMLElement>(
   useEffect(() => {
     const listener = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-      if (!ref.current || ref.current.contains(target)) return;
+      if (
+        !ref.current ||
+        target.ariaLabel?.includes("toggle") ||
+        ref.current.contains(target)
+      )
+        return;
       handler(e);
     };
 

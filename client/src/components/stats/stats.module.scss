@@ -54,6 +54,8 @@
   gap: 2rem;
   width: 100%;
 
+  overflow: hidden;
+
   header {
     display: flex;
     flex-direction: column;
@@ -68,8 +70,15 @@
 
   .cwrapper {
     position: relative;
+    height: 300px;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .ccontainer {
+    position: absolute;
+    right: 0;
     width: calc(100% + 3rem);
-    left: -1.5rem;
   }
 
   tspan {
