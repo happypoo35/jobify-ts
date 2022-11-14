@@ -62,6 +62,7 @@ export const authApi = api
       }),
       getUser: build.query<User, void>({
         query: () => ({ url: "user", credentials: "include" }),
+        keepUnusedDataFor: 5,
         providesTags: ["User"],
         async onQueryStarted(_, { queryFulfilled, dispatch }) {
           try {

@@ -11,9 +11,18 @@
     background: color(primary, 700);
   }
 
+  &:disabled {
+    background: color(gray, 300);
+  }
+
+  &[data-loading],
+  &[data-success],
+  &:disabled {
+    pointer-events: none;
+  }
+
   &[data-loading],
   &[data-success] {
-    pointer-events: none;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -62,38 +71,17 @@
   //     background: color(primary, 700);
   //   }
   // }
+}
 
-  // &-loading,
-  // &-success {
-  //   pointer-events: none;
-  //   display: flex;
-  //   justify-content: center;
-  //   gap: 0.5rem;
-  // }
+.inline {
+  background: none;
+  border: none;
+  max-width: fit-content;
+  color: color(gray, 400);
+  font-size: 0.875rem;
 
-  // &-loading {
-  //   background: color(primary, 700);
-  //   color: color(primary, 100);
-  // }
-
-  // &-success {
-  //   background: color(green, 450);
-
-  //   svg {
-  //     font-size: 1.25rem;
-  //   }
-  // }
-
-  // &-inline {
-  //   background: none;
-  //   border: none;
-  //   max-width: fit-content;
-  //   color: color(gray, 400);
-  //   padding-bottom: 0.125rem;
-
-  //   @include hover {
-  //     color: color(gray, 500);
-  //     box-shadow: inset 0 -1px 0 color(gray, 500);
-  //   }
-  // }
+  @include hover {
+    color: color(gray, 500);
+    box-shadow: inset 0 -1px 0 currentColor;
+  }
 }

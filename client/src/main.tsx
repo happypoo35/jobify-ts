@@ -13,11 +13,14 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
-    // loader: async () => {
-    //   const promise = store.dispatch(authApi.endpoints.getUser.initiate());
-    //   await promise;
-    //   promise.unsubscribe();
-    // },
+    loader: async () => {
+      const isAuth = document.cookie.includes("auth_session");
+      if (isAuth) {
+        const promise = store.dispatch(authApi.endpoints.getUser.initiate());
+        await promise;
+        promise.unsubscribe();
+      }
+    },
     children: [
       {
         path: "/",

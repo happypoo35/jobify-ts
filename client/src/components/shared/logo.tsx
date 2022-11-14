@@ -1,10 +1,10 @@
+import { AnchorHTMLAttributes } from "react";
 import { Link } from "react-router-dom";
 import { ReactComponent as JobifyLogo } from "@/assets/logo.svg";
-import { AnchorHTMLAttributes, SVGAttributes } from "react";
 
 const Logo = (props: AnchorHTMLAttributes<HTMLAnchorElement>) => {
   return (
-    <Link to="/" {...props}>
+    <Link to="/" aria-label="Jobify logo/ link to main page" {...props}>
       <JobifyLogo />
     </Link>
   );

@@ -62,4 +62,14 @@ export const ButtonLink: React.FC<PropsWithChildren & ButtonLinkProps> = ({
   );
 };
 
+export const ButtonInline: React.FC<
+  PropsWithChildren & ButtonHTMLAttributes<HTMLButtonElement>
+> = ({ children, ...props }) => {
+  return (
+    <button className={s.inline} {...props}>
+      {children}
+    </button>
+  );
+};
+
 export default Button;

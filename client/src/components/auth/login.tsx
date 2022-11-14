@@ -31,14 +31,10 @@ const Login = () => {
   });
 
   const onSubmit = async (data: LoginRequest) => {
-    console.log(data);
-
     try {
       await login(data).unwrap();
       navigate("/", { replace: true });
     } catch (err: any) {
-      console.log(err);
-
       setError("email", {
         type: "manual",
         message: ` `,
@@ -55,8 +51,8 @@ const Login = () => {
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
-      <h1 data-h3>Login</h1>
       <section>
+        <h1 data-h3>Login</h1>
         <Input
           type="email"
           label="email"
@@ -69,16 +65,18 @@ const Login = () => {
           error={errors.password?.message}
           {...register("password")}
         />
-        <Button type="submit" isLoading={isLoading}>
-          Submit
-        </Button>
+        <div data-buttons>
+          <Button type="submit" isLoading={isLoading}>
+            Submit
+          </Button>
+          <p>
+            Not a member yet?{" "}
+            <Link to="/register" data-link>
+              Register
+            </Link>
+          </p>
+        </div>
       </section>
-      <p>
-        Not a member yet?{" "}
-        <Link to="/register" data-link>
-          Register
-        </Link>
-      </p>
     </Form>
   );
 

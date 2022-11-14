@@ -71,13 +71,13 @@ const Stats = () => {
                 {el.icon}
               </span>
             </header>
-            <h5 data-h5>{el.title}</h5>
+            <h2 data-h5>{el.title}</h2>
           </article>
         ))}
       </section>
       <section className={s.chart}>
         <header>
-          <h4 data-h4>Monthly applications</h4>
+          <h3 data-h4>Monthly applications</h3>
           <p>Job applications in last 12 months</p>
         </header>
         {isLoading ? (

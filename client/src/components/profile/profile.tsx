@@ -10,13 +10,12 @@ import { Input, Button, Form } from "@/components/shared";
 import { useAlert } from "@/hooks";
 
 import s from "./profile.module.scss";
+import { ButtonInline } from "../shared/button";
 
 const Profile = () => {
   const { alert, setAlert } = useAlert();
   const user = useSelector(selectUser);
   const [updateUser, { isLoading }] = useUpdateUserMutation();
-
-  console.log(user);
 
   const schema = yup.object().shape({
     name: yup
@@ -45,8 +44,14 @@ const Profile = () => {
     register,
     handleSubmit,
     setError,
-    formState: { errors },
+    reset,
+    formState: { errors, isDirty },
   } = useForm<UpdateRequest>({ resolver: yupResolver(schema), defaultValues });
+
+  const handleReset = (e: React.MouseEvent) => {
+    e.preventDefault();
+    reset();
+  };
 
   const onSubmit = async (data: UpdateRequest) => {
     try {
@@ -88,9 +93,19 @@ const Profile = () => {
             error={errors.location?.message}
             {...register("location")}
           />
-          <Button type="submit" alert={alert} isLoading={isLoading}>
-            Save changes
-          </Button>
+          <div data-buttons>
+            <Button
+              type="submit"
+              alert={alert}
+              isLoading={isLoading}
+              disabled={!isDirty}
+            >
+              Save changes
+            </Button>
+            <ButtonInline type="reset" onClick={handleReset}>
+              Reset changes
+            </ButtonInline>
+          </div>
         </section>
       </Form>
     </section>

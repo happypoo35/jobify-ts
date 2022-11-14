@@ -41,8 +41,8 @@ const Register = () => {
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
-      <h1 data-h3>Register</h1>
       <section>
+        <h1 data-h3>Register</h1>
         <Input
           label="name"
           error={errors.name?.message}
@@ -60,16 +60,18 @@ const Register = () => {
           error={errors.password?.message}
           {...register("password")}
         />
-        <Button type="submit" isLoading={isLoading}>
-          Submit
-        </Button>
+        <div data-buttons>
+          <Button type="submit" isLoading={isLoading}>
+            Submit
+          </Button>
+          <p>
+            Already a member?{" "}
+            <Link to="/login" data-link>
+              Login
+            </Link>
+          </p>
+        </div>
       </section>
-      <p>
-        Already a member?{" "}
-        <Link to="/login" data-link>
-          Login
-        </Link>
-      </p>
     </Form>
   );
 };
