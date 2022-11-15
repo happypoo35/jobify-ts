@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import { FaAlignLeft } from "react-icons/fa";
-import Sidebar from "./sidebar";
-import { Button, Logo } from "../shared";
+
 import { useLogoutMutation } from "@/app/auth.api";
 
-import s from "./layout.module.scss";
+import Sidebar from "./sidebar";
+import { Button, Logo } from "../shared";
 import { useMediaQuery } from "@/hooks";
+
+import s from "./layout.module.scss";
 
 const Layout = () => {
   const tablet = useMediaQuery("(max-width: 768px)");
@@ -14,6 +16,7 @@ const Layout = () => {
     active: true,
     animateOnClose: false,
   });
+
   const [logout, { isLoading }] = useLogoutMutation();
 
   const handleLogout = async () => {

@@ -1,29 +1,45 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  redirect,
+  RouterProvider,
+} from "react-router-dom";
 
 import store from "./app/store";
-import { Auth, Jobs, Layout, Main, Profile, Stats } from "./components";
+import {
+  Main,
+  Landing,
+  Dashboard,
+  Auth,
+  Jobs,
+  Layout,
+  Profile,
+  Stats,
+} from "./components";
 import { authApi } from "./app/auth.api";
 
 import "@/styles/globals.scss";
 
+const isAuth = document.cookie.includes("auth_session");
+console.log(isAuth);
+
 const router = createBrowserRouter([
   {
-    path: "/",
     element: <Layout />,
     loader: async () => {
-      const isAuth = document.cookie.includes("auth_session");
       if (isAuth) {
         const promise = store.dispatch(authApi.endpoints.getUser.initiate());
         await promise;
+
         promise.unsubscribe();
       }
     },
     children: [
       {
         path: "/",
+        // element: isAuth ? <Dashboard /> : <Landing />,
         element: <Main />,
         children: [
           {
@@ -42,6 +58,9 @@ const router = createBrowserRouter([
       },
       {
         element: <Auth.Layout />,
+        loader: () => {
+          if (isAuth) return redirect("/");
+        },
         children: [
           {
             path: "login",

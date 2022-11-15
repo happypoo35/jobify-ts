@@ -7,9 +7,9 @@ import { useDeleteJobMutation, usePrefetch } from "@/app/jobs.api";
 import { useOutsideClick } from "@/hooks";
 import { ReactComponent as Spinner } from "@/assets/spinner.svg";
 
-import s from "./options.module.scss";
+import s from "./cardOptions.module.scss";
 
-const Options = ({ jobId }: { jobId: string }) => {
+const CardOptions = ({ jobId }: { jobId: string }) => {
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
   const optionsRef = useRef(null);
@@ -57,4 +57,4 @@ const Options = ({ jobId }: { jobId: string }) => {
   );
 };
 
-export default Options;
+export default CardOptions;

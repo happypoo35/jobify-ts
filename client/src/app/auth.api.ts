@@ -24,6 +24,14 @@ export interface RegisterRequest extends LoginRequest {
   name: string;
 }
 
+const setAuthCookie = () => {
+  document.cookie = `auth_session=; max-age=${24 * 60 * 60}; SameSite=Strict`;
+};
+
+const clearAuthCookie = () => {
+  document.cookie = "auth_session=; max-age=0; SameSite=Strict";
+};
+
 export const authApi = api
   .enhanceEndpoints({
     addTagTypes: ["User", "Jobs", "Stats"],
@@ -41,7 +49,7 @@ export const authApi = api
         async onQueryStarted(_, { queryFulfilled }) {
           try {
             await queryFulfilled;
-            document.cookie = "auth_session=; SameSite=Strict";
+            setAuthCookie();
           } catch (err) {}
         },
       }),
@@ -56,7 +64,7 @@ export const authApi = api
         async onQueryStarted(_, { queryFulfilled }) {
           try {
             await queryFulfilled;
-            document.cookie = "auth_session=; SameSite=Strict";
+            setAuthCookie();
           } catch (err) {}
         },
       }),
@@ -67,7 +75,9 @@ export const authApi = api
         async onQueryStarted(_, { queryFulfilled, dispatch }) {
           try {
             await queryFulfilled;
+            setAuthCookie();
           } catch (err) {
+            clearAuthCookie();
             dispatch(clearUser());
           }
         },
@@ -83,6 +93,7 @@ export const authApi = api
         async onQueryStarted(_, { queryFulfilled, dispatch }) {
           try {
             await queryFulfilled;
+            setAuthCookie();
           } catch (err) {}
         },
       }),
@@ -95,7 +106,7 @@ export const authApi = api
         async onQueryStarted(_, { queryFulfilled, dispatch }) {
           try {
             await queryFulfilled;
-            document.cookie = "auth_session=; max-age=0; SameSite=Strict";
+            clearAuthCookie();
             dispatch(clearUser());
           } catch (err) {
             dispatch(clearUser());

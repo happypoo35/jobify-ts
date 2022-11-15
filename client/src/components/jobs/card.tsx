@@ -3,7 +3,7 @@ import { FiNavigation, FiCalendar, FiBriefcase } from "react-icons/fi";
 import { Job } from "@/app/jobs.api";
 
 import { useLocale } from "@/hooks";
-import Options from "./options";
+import CardOptions from "./cardOptions";
 
 import s from "./card.module.scss";
 
@@ -32,7 +32,7 @@ const Card = ({ job }: { job: Job }) => {
             <p title={company}>{company}</p>
           </div>
         </div>
-        <Options jobId={jobId} />
+        <CardOptions jobId={jobId} />
       </header>
       <div className={s.content}>
         <div className={s.item}>

@@ -1,9 +1,8 @@
-import { Link } from "react-router-dom";
 import { ReactComponent as HeroImg } from "@/assets/main-alternative.svg";
-import { Button, Logo } from "../shared";
+import { Logo } from "../shared";
+import { ButtonLink } from "../shared/button";
 
 import s from "./landing.module.scss";
-import { ButtonLink } from "../shared/button";
 
 const Landing = () => {
   return (

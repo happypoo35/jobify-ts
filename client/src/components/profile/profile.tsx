@@ -8,9 +8,9 @@ import { UpdateRequest, useUpdateUserMutation } from "@/app/auth.api";
 
 import { Input, Button, Form } from "@/components/shared";
 import { useAlert } from "@/hooks";
+import { ButtonInline } from "../shared/button";
 
 import s from "./profile.module.scss";
-import { ButtonInline } from "../shared/button";
 
 const Profile = () => {
   const { alert, setAlert } = useAlert();
@@ -55,8 +55,12 @@ const Profile = () => {
 
   const onSubmit = async (data: UpdateRequest) => {
     try {
-      await updateUser(data).unwrap();
+      const result = await updateUser(data).unwrap();
       setAlert({ isSuccess: true, message: "Profile updated!" });
+      reset(result);
+      if (document.activeElement instanceof HTMLElement) {
+        document.activeElement.blur();
+      }
     } catch (err: any) {
       if (err.data?.errors) {
         err.data.errors.map((el: { key: keyof UpdateRequest; msg: string }) =>
