@@ -2,19 +2,18 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
-import { useSelector } from "react-redux";
 import { selectUser } from "@/features/user.slice";
 import { UpdateRequest, useUpdateUserMutation } from "@/app/auth.api";
 
 import { Input, Button, Form } from "@/components/shared";
-import { useAlert } from "@/hooks";
+import { useAlert, useAppSelector } from "@/hooks";
 import { ButtonInline } from "../shared/button";
 
 import s from "./profile.module.scss";
 
 const Profile = () => {
   const { alert, setAlert } = useAlert();
-  const user = useSelector(selectUser);
+  const user = useAppSelector(selectUser);
   const [updateUser, { isLoading }] = useUpdateUserMutation();
 
   const schema = yup.object().shape({
