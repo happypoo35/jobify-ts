@@ -9,7 +9,7 @@ import s from "./sidebar.module.scss";
 const navItems = [
   {
     name: "Stats",
-    slug: ".",
+    slug: "stats",
     icon: <FiPieChart />,
   },
   {

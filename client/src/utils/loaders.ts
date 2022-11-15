@@ -2,10 +2,8 @@ import { redirect } from "react-router-dom";
 import { authApi } from "@/app/auth.api";
 import store from "@/app/store";
 
-const isAuth = document.cookie.includes("auth_session");
-
 export const rootLoader = async () => {
-  if (isAuth) {
+  if (document.cookie.includes("auth_session")) {
     const promise = store.dispatch(authApi.endpoints.getUser.initiate());
     await promise;
 
@@ -14,5 +12,9 @@ export const rootLoader = async () => {
 };
 
 export const authLoader = () => {
-  if (isAuth) return redirect("/");
+  if (document.cookie.includes("auth_session")) throw redirect("/");
+};
+
+export const protectLoader = () => {
+  if (!document.cookie.includes("auth_session")) throw redirect("/login");
 };

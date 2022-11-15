@@ -1,16 +1,18 @@
 import { useState } from "react";
-import { Outlet } from "react-router-dom";
+import { Navigate, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { FaAlignLeft } from "react-icons/fa";
 
 import { useLogoutMutation } from "@/app/auth.api";
 
-import Sidebar from "./sidebar";
 import { Button, Logo } from "../shared";
 import { useMediaQuery } from "@/hooks";
+import Sidebar from "./sidebar";
 
 import s from "./layout.module.scss";
 
 const Layout = () => {
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
   const tablet = useMediaQuery("(max-width: 768px)");
   const [sidebar, setSidebar] = useState({
     active: true,
@@ -22,6 +24,7 @@ const Layout = () => {
   const handleLogout = async () => {
     try {
       await logout().unwrap();
+      navigate("/", { replace: true });
     } catch (err) {}
   };
 
@@ -34,6 +37,8 @@ const Layout = () => {
       setSidebar((p) => ({ ...p, active: true }));
     }
   };
+
+  if (pathname === "/") return <Navigate to="stats" replace={true} />;
 
   return (
     <div className={s.dashboard}>
