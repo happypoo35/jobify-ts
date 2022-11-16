@@ -17,11 +17,11 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   error?: string;
 }
 
-interface SelectProps {
+interface SelectProps<T extends FieldValues> {
   label: string;
   error?: string;
   options: string[];
-  setValue: UseFormSetValue<FieldValues>;
+  setValue: UseFormSetValue<T>;
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps & UseFormRegisterReturn>(
@@ -41,18 +41,16 @@ const Input = forwardRef<HTMLInputElement, InputProps & UseFormRegisterReturn>(
   }
 );
 
-export const Select = ({
+export const Select = <T extends FieldValues>({
   error,
   label,
   setValue,
   options,
   ...props
-}: SelectProps & UseControllerProps<FieldValues>) => {
+}: SelectProps<T> & UseControllerProps<T>) => {
   const [show, setShow] = useState(false);
   const { field } = useController(props);
   const selectRef = useRef(null);
-
-  console.log(field);
 
   useOutsideClick(selectRef, () => setShow(false));
 
@@ -74,7 +72,7 @@ export const Select = ({
             key={id}
             className={s.item}
             data-active={el === field.value || undefined}
-            onClick={() => setValue(field.name, el)}
+            onClick={() => setValue(field.name, el as typeof field.value)}
           >
             {el}
           </li>

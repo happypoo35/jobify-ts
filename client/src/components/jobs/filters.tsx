@@ -42,7 +42,7 @@ const Filters: React.FC<{ jobsCount: number; pageCount: number }> = ({
     sort: "latest",
   };
 
-  const { register, control, setValue, reset } = useForm<FieldValues>({
+  const { register, control, setValue, reset } = useForm<FormValues>({
     defaultValues,
   });
 
