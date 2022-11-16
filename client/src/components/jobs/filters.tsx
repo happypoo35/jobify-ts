@@ -1,11 +1,11 @@
-import { useEffect } from "react";
+// import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { FiEyeOff, FiEye } from "react-icons/fi";
-import { useDebounce } from "hooks";
-import { Field, Selector } from "components/Common";
-import { SORT_OPTS, STATUS_OPTS, TYPE_OPTS } from "utils/constants";
+// import { useDebounce } from "hooks";
 
-import { useForm, useWatch } from "react-hook-form";
+import { SORT_OPTS, STATUS_OPTS, TYPE_OPTS } from "@/utils/constants";
+
+import { useForm, useWatch, FieldValues } from "react-hook-form";
 
 import {
   selectLimit,
@@ -15,11 +15,21 @@ import {
 } from "@/features/global.slice";
 import { useAppDispatch, useAppSelector } from "@/hooks";
 
+import { Input } from "../shared";
+import { Select } from "../shared/input";
+
+type FormValues = {
+  search: string;
+  status: string;
+  jobType: string;
+  sort: string;
+};
+
 const Filters: React.FC<{ jobsCount: number; pageCount: number }> = ({
   jobsCount,
   pageCount,
 }) => {
-  const [searchParams, setSearchParams] = useSearchParams(); //eslint-disable-line
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const dispatch = useAppDispatch();
   const page = useAppSelector(selectPage);
@@ -32,42 +42,44 @@ const Filters: React.FC<{ jobsCount: number; pageCount: number }> = ({
     sort: "latest",
   };
 
-  const { register, control, setValue, reset } = useForm({
+  const { register, control, setValue, reset } = useForm<FieldValues>({
     defaultValues,
   });
 
   const values = useWatch({ control });
-  const debouncedSearch = useDebounce(values.search);
+  console.log(values);
 
-  useEffect(() => {
-    const { search, ...rest } = values;
-    const searchValues = Object.keys(rest).reduce((acc, el) => {
-      if (rest[el] !== "all" && rest[el] !== "latest") {
-        acc[el] = rest[el];
-      }
-      return acc;
-    }, {});
+  // const debouncedSearch = useDebounce(values.search);
 
-    if (debouncedSearch) {
-      searchValues.search = debouncedSearch;
-    }
+  // useEffect(() => {
+  //   const { search, ...rest } = values;
+  //   const searchValues = Object.keys(rest).reduce((acc, el) => {
+  //     if (rest[el] !== "all" && rest[el] !== "latest") {
+  //       acc[el] = rest[el];
+  //     }
+  //     return acc;
+  //   }, {});
 
-    if (page > 1) {
-      searchValues.page = page;
-    }
+  //   if (debouncedSearch) {
+  //     searchValues.search = debouncedSearch;
+  //   }
 
-    if (limit) {
-      searchValues.limit = limit;
-    }
+  //   if (page > 1) {
+  //     searchValues.page = page;
+  //   }
 
-    setSearchParams(searchValues);
-  }, [setSearchParams, values, debouncedSearch, page, limit]);
+  //   if (limit) {
+  //     searchValues.limit = limit;
+  //   }
 
-  useEffect(() => {
-    if (page > pageCount) {
-      dispatch(setPage(1));
-    }
-  }, [page, pageCount, dispatch]);
+  //   setSearchParams(searchValues);
+  // }, [setSearchParams, values, debouncedSearch, page, limit]);
+
+  // useEffect(() => {
+  //   if (page > pageCount) {
+  //     dispatch(setPage(1));
+  //   }
+  // }, [page, pageCount, dispatch]);
 
   const handleReset = () => {
     dispatch(setPage(1));
@@ -78,27 +90,22 @@ const Filters: React.FC<{ jobsCount: number; pageCount: number }> = ({
   return (
     <div className="filters-container">
       <form className="filters">
-        <Field
-          label="search"
-          name="search"
-          autoComplete="off"
-          {...register("search")}
-        />
-        <Selector
+        <Input label="search" autoComplete="off" {...register("search")} />
+        <Select
           name="status"
           label="status"
           options={["all", ...STATUS_OPTS]}
           setValue={setValue}
           control={control}
         />
-        <Selector
+        <Select
           name="jobType"
           label="type"
           options={["all", ...TYPE_OPTS]}
           setValue={setValue}
           control={control}
         />
-        <Selector
+        <Select
           name="sort"
           label="sort"
           options={SORT_OPTS}

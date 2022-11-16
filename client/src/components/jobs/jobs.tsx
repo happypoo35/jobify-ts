@@ -1,7 +1,7 @@
 import { useSearchParams } from "react-router-dom";
 import { ReactComponent as Spinner } from "@/assets/spinner.svg";
 import Card from "./card";
-// import Filters from "./Filters";
+import Filters from "./filters";
 // import Pagination from "./Pagination";
 
 import { useGetAllJobsQuery } from "@/app/jobs.api";
@@ -18,7 +18,7 @@ const Jobs = () => {
 
   return (
     <section className={s.section}>
-      {/* <Filters jobsCount={data?.nHits} pageCount={data?.nPages} /> */}
+      {data && <Filters jobsCount={data.nHits} pageCount={data.nPages} />}
       <section className={s.list} role="list">
         {isFetching && (
           <div className={s.cover}>
