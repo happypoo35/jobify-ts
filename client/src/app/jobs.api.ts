@@ -1,3 +1,4 @@
+import { URLSearchParams } from "url";
 import { api } from "./api";
 
 export interface Job {

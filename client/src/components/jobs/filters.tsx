@@ -18,6 +18,10 @@ import { useAppDispatch, useAppSelector } from "@/hooks";
 import { Input } from "../shared";
 import { Select } from "../shared/input";
 
+import s from "./filters.module.scss";
+import { ButtonInline } from "../shared/button";
+import { useEffect } from "react";
+
 type FormValues = {
   search: string;
   status: string;
@@ -29,11 +33,13 @@ const Filters: React.FC<{ jobsCount: number; pageCount: number }> = ({
   jobsCount,
   pageCount,
 }) => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [params, setParams] = useSearchParams();
 
   const dispatch = useAppDispatch();
   const page = useAppSelector(selectPage);
   const limit = useAppSelector(selectLimit);
+
+  console.log(Object.fromEntries(params));
 
   const defaultValues = {
     search: "",
@@ -88,8 +94,8 @@ const Filters: React.FC<{ jobsCount: number; pageCount: number }> = ({
   };
 
   return (
-    <div className="filters-container">
-      <form className="filters">
+    <div className={s.container}>
+      <form>
         <Input label="search" autoComplete="off" {...register("search")} />
         <Select
           name="status"
@@ -113,21 +119,16 @@ const Filters: React.FC<{ jobsCount: number; pageCount: number }> = ({
           control={control}
         />
       </form>
-      <div className="filters-stats">
-        {jobsCount > 0 ? (
-          <span className="count">
-            <FiEye />
-            {jobsCount} {jobsCount === 1 ? "job" : "jobs"} found
-          </span>
-        ) : (
-          <span className="count">
-            <FiEyeOff />
-            no jobs to display
-          </span>
-        )}
-        <button type="button" className="btn-inline" onClick={handleReset}>
+      <div className={s.stats}>
+        <span>
+          {jobsCount > 0 ? <FiEye /> : <FiEyeOff />}
+          {jobsCount > 0
+            ? `${jobsCount} job${jobsCount !== 1 && "s"} found`
+            : "no jobs to display"}
+        </span>
+        <ButtonInline type="button" onClick={handleReset}>
           Clear filters
-        </button>
+        </ButtonInline>
       </div>
     </div>
   );

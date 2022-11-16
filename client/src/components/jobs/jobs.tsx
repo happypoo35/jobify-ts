@@ -11,10 +11,9 @@ import s from "./jobs.module.scss";
 const Jobs = () => {
   const [searchParams] = useSearchParams();
   const { data, isLoading, isFetching } = useGetAllJobsQuery(
-    searchParams.toString()
+    /* searchParams.toString() */
+    {test: 'test'}
   );
-
-  console.log(data);
 
   return (
     <section className={s.section}>
