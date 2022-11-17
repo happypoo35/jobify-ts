@@ -29,7 +29,7 @@
     &:focus,
     &:not(:placeholder-shown) {
       ~ label {
-        top: 1rem;
+        top: 0.75rem;
         font-size: 0.75rem;
         color: color(primary, 500);
       }

@@ -1,4 +1,3 @@
-import { URLSearchParams } from "url";
 import { api } from "./api";
 
 export interface Job {
@@ -17,6 +16,8 @@ export interface JobsObj {
   jobs: Job[];
   nHits: number;
   nPages: number;
+  page: number;
+  limit: number;
 }
 
 export interface Stats {
