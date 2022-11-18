@@ -32,9 +32,16 @@ interface Props {
   pageCount: number;
   page: number;
   limit: number;
+  query: FormValues;
 }
 
-const Filters = ({ jobsCount = 0, pageCount = 0, page, limit }: Props) => {
+const Filters = ({
+  jobsCount = 0,
+  pageCount = 0,
+  page,
+  limit,
+  query,
+}: Props) => {
   const [params, setParams] = useSearchParams();
   const queryParams = Object.fromEntries(params);
 
@@ -42,20 +49,17 @@ const Filters = ({ jobsCount = 0, pageCount = 0, page, limit }: Props) => {
   // const page = useAppSelector(selectPage);
   // const limit = useAppSelector(selectLimit);
 
-  const defaultValues: FormValues = {
-    search: queryParams.search,
-    status: STATUS_OPTS.includes(queryParams.status)
-      ? (queryParams.status as FormValues["status"])
-      : "all",
-    jobType: TYPE_OPTS.includes(queryParams.jobType)
-      ? (queryParams.jobType as FormValues["jobType"])
-      : "all",
-    sort: SORT_OPTS.includes(queryParams.sort)
-      ? (queryParams.sort as FormValues["sort"])
-      : "latest",
-    page,
-    limit,
-  };
+  const defaultValues: FormValues = useMemo(
+    () => ({
+      search: query.search || "",
+      status: query.status || "all",
+      jobType: query.jobType || "all",
+      sort: query.sort || "latest",
+      page,
+      limit,
+    }),
+    [query, page, limit]
+  );
 
   const { register, control, setValue, reset } = useForm<FormValues>({
     defaultValues,
@@ -81,45 +85,13 @@ const Filters = ({ jobsCount = 0, pageCount = 0, page, limit }: Props) => {
   }, [debouncedSearch, values.search, setParams]);
 
   const setURLParam = (key: string, value: string) => {
-    params.set(key, value);
+    if (!["all", "latest"].includes(value)) {
+      params.set(key, value);
+    } else {
+      params.delete(key);
+    }
     setParams(params, { replace: true });
   };
-
-  // useEffect(() => {
-  //   setParams(
-  //     {
-  //       ...(debouncedSearch && values.search && { search: debouncedSearch }),
-  //       ...(values.status !== "all" && { status: values.status }),
-  //       ...(values.jobType !== "all" && { jobType: values.jobType }),
-  //       ...(values.sort !== "latest" && { sort: values.sort }),
-  //     },
-  //     { replace: true }
-  //   );
-  // }, [debouncedSearch, values, setParams]);
-
-  // useEffect(() => {
-  //   const { search, page, limit, ...rest } = values;
-
-  //   // const queryObj: { [P in keyof FormValues]?: FormValues[P] } = {};
-  //   const queryObj: { [P in keyof FormValues]?: string } = {};
-
-  //   if (debouncedSearch && search) {
-  //     queryObj.search = debouncedSearch;
-  //   }
-
-  //   (Object.keys(rest) as (keyof typeof rest)[]).map((el) => {
-  //     if (["all", "latest"].indexOf(rest[el] as string) === -1) {
-  //       queryObj[el] = rest[el];
-  //     }
-  //     return null;
-  //   });
-
-  //   if (page && page !== 1) {
-  //     queryObj.page = String(page);
-  //   }
-
-  //   setParams(queryObj);
-  // }, [setParams, values, debouncedSearch]);
 
   // useEffect(() => {
   //   const { search, ...rest } = values;
@@ -152,9 +124,6 @@ const Filters = ({ jobsCount = 0, pageCount = 0, page, limit }: Props) => {
   // }, [page, pageCount, dispatch]);
 
   const handleReset = () => {
-    // dispatch(setPage(1));
-    // dispatch(setLimit(null));
-    setParams("", { replace: true });
     reset({
       search: "",
       status: "all",
@@ -163,7 +132,12 @@ const Filters = ({ jobsCount = 0, pageCount = 0, page, limit }: Props) => {
       page,
       limit,
     });
+    setParams("");
   };
+
+  useEffect(() => {
+    reset(defaultValues);
+  }, [reset, defaultValues]);
 
   return (
     <div className={s.container}>

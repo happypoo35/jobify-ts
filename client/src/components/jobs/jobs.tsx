@@ -9,33 +9,36 @@ import Card from "./card";
 import { useGetAllJobsQuery } from "@/app/jobs.api";
 
 import s from "./jobs.module.scss";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+// import { useQueryParams } from "@/hooks";
 
 const Jobs = () => {
   const [params, setParams] = useSearchParams();
-  const [skip, setSkip] = useState(true);
-  console.log(skip);
+  const queryParams = useMemo(() => Object.fromEntries(params), [params]);
+  const [query, setQuery] = useState({});
 
   const { data, isLoading, isFetching } = useGetAllJobsQuery(
-    Object.fromEntries(params),
-    { skip }
+    // Object.fromEntries(params)
+    query
   );
 
   useEffect(() => {
-    setSkip(true);
-    const queryParams = Object.fromEntries(params);
-    if (!STATUS_OPTS.includes(queryParams.status)) {
-      params.delete("status");
+    const obj: Record<string, string> = {};
+    if (queryParams.search) {
+      obj.search = queryParams.search;
     }
-    if (!TYPE_OPTS.includes(queryParams.jobType)) {
-      params.delete("jobType");
+    if (queryParams.status && STATUS_OPTS.includes(queryParams.status)) {
+      obj.status = queryParams.status;
     }
-    if (!SORT_OPTS.slice(1).includes(queryParams.sort)) {
-      params.delete("sort");
+    if (queryParams.jobType && TYPE_OPTS.includes(queryParams.jobType)) {
+      obj.jobType = queryParams.jobType;
     }
-    setParams(params, { replace: true });
-    setSkip(false);
-  }, [params, setParams]);
+    if (queryParams.sort && SORT_OPTS.slice(1).includes(queryParams.sort)) {
+      obj.sort = queryParams.sort;
+    }
+
+    setQuery(obj);
+  }, [queryParams]);
 
   return (
     <section className={s.section}>
@@ -44,6 +47,7 @@ const Jobs = () => {
         pageCount={data?.nPages}
         page={data?.page}
         limit={data?.limit}
+        query={query}
       />
       <section className={s.list} role="list">
         {(isLoading || isFetching) && (
