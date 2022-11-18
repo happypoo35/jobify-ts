@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
 
@@ -53,9 +52,9 @@ const Pagination = ({
     }
   };
 
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, [currentPage]);
+  // useEffect(() => {
+  //   window.scrollTo({ top: 0, behavior: "smooth" });
+  // }, [currentPage]);
 
   return (
     <div className={s.container}>
