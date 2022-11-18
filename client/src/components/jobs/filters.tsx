@@ -3,22 +3,15 @@ import { useSearchParams } from "react-router-dom";
 import { useForm, useWatch } from "react-hook-form";
 import { FiEyeOff, FiEye } from "react-icons/fi";
 
-import {
-  selectLimit,
-  selectPage,
-  setLimit,
-  setPage,
-} from "@/features/global.slice";
-
 import { SORT_OPTS, STATUS_OPTS, TYPE_OPTS } from "@/utils/constants";
-import { useAppDispatch, useAppSelector, useDebounce } from "@/hooks";
+import { useDebounce } from "@/hooks";
 import { Input } from "../shared";
 import { Select } from "../shared/input";
 import { ButtonInline } from "../shared/button";
 
 import s from "./filters.module.scss";
 
-type FormValues = {
+export type FormValues = {
   search: string;
   status: "all" | "interview" | "declined" | "pending";
   jobType: "all" | "full-time" | "part-time" | "remote" | "internship";
@@ -32,7 +25,7 @@ interface Props {
   pageCount: number;
   page: number;
   limit: number;
-  query: FormValues;
+  query: Partial<FormValues>;
 }
 
 const Filters = ({
@@ -43,11 +36,6 @@ const Filters = ({
   query,
 }: Props) => {
   const [params, setParams] = useSearchParams();
-  const queryParams = Object.fromEntries(params);
-
-  // const dispatch = useAppDispatch();
-  // const page = useAppSelector(selectPage);
-  // const limit = useAppSelector(selectLimit);
 
   const defaultValues: FormValues = useMemo(
     () => ({
@@ -93,35 +81,14 @@ const Filters = ({
     setParams(params, { replace: true });
   };
 
-  // useEffect(() => {
-  //   const { search, ...rest } = values;
-  //   const searchValues = Object.keys(rest).reduce((acc, el) => {
-  //     if (rest[el] !== "all" && rest[el] !== "latest") {
-  //       acc[el] = rest[el];
-  //     }
-  //     return acc;
-  //   }, {});
-
-  //   if (debouncedSearch) {
-  //     searchValues.search = debouncedSearch;
-  //   }
-
-  //   if (page > 1) {
-  //     searchValues.page = page;
-  //   }
-
-  //   if (limit) {
-  //     searchValues.limit = limit;
-  //   }
-
-  //   setSearchParams(searchValues);
-  // }, [setSearchParams, values, debouncedSearch, page, limit]);
-
-  // useEffect(() => {
-  //   if (page > pageCount) {
-  //     dispatch(setPage(1));
-  //   }
-  // }, [page, pageCount, dispatch]);
+  useEffect(() => {
+    if (page > pageCount) {
+      setParams((p) => {
+        p.delete("page");
+        return p;
+      });
+    }
+  }, [page, pageCount, setParams]);
 
   const handleReset = () => {
     reset({
@@ -132,7 +99,7 @@ const Filters = ({
       page,
       limit,
     });
-    setParams("");
+    setParams("", { replace: true });
   };
 
   useEffect(() => {

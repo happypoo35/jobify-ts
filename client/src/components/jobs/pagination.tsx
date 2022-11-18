@@ -1,42 +1,55 @@
 import { useEffect } from "react";
-import { usePagination, useWindowSize } from "hooks";
-import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
 import { useSearchParams } from "react-router-dom";
+import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
 
-import { useDispatch, useSelector } from "react-redux";
-import { selectPage, setPage } from "app/slice.global";
 import { usePrefetch } from "@/app/jobs.api";
+import { usePagination, useMediaQuery } from "@/hooks";
 
-const Pagination = ({ pageCount }: { pageCount: number }) => {
-  const [searchParams] = useSearchParams();
-  const { mobile } = useWindowSize();
-  const currentPage = useSelector(selectPage);
+import s from "./pagination.module.scss";
+
+const Pagination = ({
+  pageCount,
+  currentPage,
+}: {
+  pageCount: number;
+  currentPage: number;
+}) => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const mobile = useMediaQuery("(max-width: 576px)");
   const pages = usePagination({
     pageCount,
     currentPage,
     siblingCount: mobile ? 0 : 1,
   });
 
-  const dispatch = useDispatch();
   const prefetchPage = usePrefetch("getAllJobs");
 
-  const handlePrefetchPage = (page) => {
+  const handlePrefetchPage = (page: number) => {
     if (page > 0 && page <= pageCount) {
-      searchParams.set("page", page);
-      const search = searchParams.toString();
-      prefetchPage(search);
+      const query = Object.fromEntries(searchParams);
+      if (page === 1) {
+        delete query.page;
+      } else {
+        query.page = String(page);
+      }
+      prefetchPage(query);
     }
+  };
+
+  const handleSetPage = (page: number) => {
+    searchParams.set("page", String(page));
+    setSearchParams(searchParams);
   };
 
   const handleNextPage = () => {
     if (currentPage < pageCount) {
-      dispatch(setPage(currentPage + 1));
+      handleSetPage(currentPage + 1);
     }
   };
 
   const handlePrevPage = () => {
     if (currentPage > 1) {
-      dispatch(setPage(currentPage - 1));
+      handleSetPage(currentPage - 1);
     }
   };
 
@@ -45,35 +58,34 @@ const Pagination = ({ pageCount }: { pageCount: number }) => {
   }, [currentPage]);
 
   return (
-    <div className="pagination">
+    <div className={s.container}>
       <button
-        className="pagination-arrow"
+        className={s.arrow}
         onClick={handlePrevPage}
         onMouseEnter={() => handlePrefetchPage(currentPage - 1)}
       >
         <FiArrowLeft />
       </button>
-      {pages.map((el, id) => {
+      {pages?.map((el, id) => {
         if (el === "dots") {
-          return (
-            <span key={id} className="dots">
-              &#8230;
-            </span>
-          );
+          return <span key={id}>&#8230;</span>;
         }
         return (
           <button
             key={id}
-            className={`pagination-btn ${el === currentPage ? "active" : ""}`}
-            onClick={() => dispatch(setPage(el))}
-            onMouseEnter={() => handlePrefetchPage(el)}
+            className={s.btn}
+            data-active={el === currentPage || undefined}
+            onClick={() => typeof el === "number" && handleSetPage(el)}
+            onMouseEnter={() =>
+              typeof el === "number" && handlePrefetchPage(el)
+            }
           >
             {el}
           </button>
         );
       })}
       <button
-        className="pagination-arrow"
+        className={s.arrow}
         onClick={handleNextPage}
         onMouseEnter={() => handlePrefetchPage(currentPage + 1)}
       >
