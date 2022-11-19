@@ -7,16 +7,19 @@ import Filters from "./filters";
 import Card from "./card";
 import Pagination from "./pagination";
 
-import { useGetAllJobsQuery } from "@/app/jobs.api";
+import { JobsQuery, useGetAllJobsQuery } from "@/app/jobs.api";
 
 import s from "./jobs.module.scss";
 
 const Jobs = () => {
-  const [params, setParams] = useSearchParams();
-  const queryParams = useMemo(() => Object.fromEntries(params), [params]);
-  const [query, setQuery] = useState({});
+  const [searchParams, setSearchParams] = useSearchParams();
+  const queryParams = useMemo(
+    () => Object.fromEntries(searchParams),
+    [searchParams]
+  );
+  const [params, setParams] = useState<Partial<JobsQuery>>({});
 
-  const { data, isLoading, isFetching } = useGetAllJobsQuery(query);
+  const { data, isLoading, isFetching } = useGetAllJobsQuery(params);
 
   useEffect(() => {
     const obj: Record<string, string> = {};
@@ -36,9 +39,9 @@ const Jobs = () => {
       obj.page = queryParams.page;
     }
 
+    setSearchParams(obj);
     setParams(obj);
-    setQuery(obj);
-  }, [queryParams, setParams]);
+  }, [queryParams, setSearchParams]);
 
   if (!data) {
     return null;
@@ -51,7 +54,7 @@ const Jobs = () => {
         pageCount={data?.nPages}
         page={data?.page}
         limit={data?.limit}
-        query={query}
+        params={params}
       />
       <section className={s.list} role="list">
         {(isLoading || isFetching) && (

@@ -19,7 +19,7 @@ const navItems = [
   },
   {
     name: "Add Job",
-    slug: "add-job",
+    slug: "job",
     icon: <FiFilePlus />,
   },
   {

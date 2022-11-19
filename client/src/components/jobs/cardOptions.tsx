@@ -36,7 +36,7 @@ const CardOptions = ({ jobId }: { jobId: string }) => {
       </button>
       <div className={s.dropdown} data-active={show || undefined} role="menu">
         <span
-          onClick={() => navigate(`/dashboard/add-job/${jobId}`)}
+          onClick={() => navigate(`/job/${jobId}`)}
           onMouseEnter={() => prefetchJob(jobId)}
         >
           <FiEdit /> Edit

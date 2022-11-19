@@ -5,27 +5,19 @@ import { FiEyeOff, FiEye } from "react-icons/fi";
 
 import { SORT_OPTS, STATUS_OPTS, TYPE_OPTS } from "@/utils/constants";
 import { useDebounce } from "@/hooks";
-import { Input } from "../shared";
-import { Select } from "../shared/input";
+import { Input, Select } from "../shared";
 import { ButtonInline } from "../shared/button";
 
-import s from "./filters.module.scss";
+import { JobsQuery } from "@/app/jobs.api";
 
-export type FormValues = {
-  search: string;
-  status: "all" | "interview" | "declined" | "pending";
-  jobType: "all" | "full-time" | "part-time" | "remote" | "internship";
-  sort: "latest" | "oldest" | "a-z" | "z-a";
-  page: number;
-  limit: number;
-};
+import s from "./filters.module.scss";
 
 interface Props {
   jobsCount: number;
   pageCount: number;
   page: number;
   limit: number;
-  query: Partial<FormValues>;
+  params: Partial<JobsQuery>;
 }
 
 const Filters = ({
@@ -33,23 +25,23 @@ const Filters = ({
   pageCount = 0,
   page,
   limit,
-  query,
+  params,
 }: Props) => {
-  const [params, setParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const defaultValues: FormValues = useMemo(
+  const defaultValues = useMemo(
     () => ({
-      search: query.search || "",
-      status: query.status || "all",
-      jobType: query.jobType || "all",
-      sort: query.sort || "latest",
+      search: params.search || "",
+      status: params.status || "all",
+      jobType: params.jobType || "all",
+      sort: params.sort || "latest",
       page,
       limit,
     }),
-    [query, page, limit]
+    [params, page, limit]
   );
 
-  const { register, control, setValue, reset } = useForm<FormValues>({
+  const { register, control, setValue, reset } = useForm<JobsQuery>({
     defaultValues,
   });
 
@@ -59,7 +51,7 @@ const Filters = ({
   const debouncedSearch = useDebounce(values.search);
 
   useEffect(() => {
-    setParams(
+    setSearchParams(
       (p) => {
         if (debouncedSearch && values.search) {
           p.set("search", debouncedSearch);
@@ -70,25 +62,25 @@ const Filters = ({
       },
       { replace: true }
     );
-  }, [debouncedSearch, values.search, setParams]);
+  }, [debouncedSearch, values.search, setSearchParams]);
 
   const setURLParam = (key: string, value: string) => {
     if (!["all", "latest"].includes(value)) {
-      params.set(key, value);
+      searchParams.set(key, value);
     } else {
-      params.delete(key);
+      searchParams.delete(key);
     }
-    setParams(params, { replace: true });
+    setSearchParams(searchParams, { replace: true });
   };
 
   useEffect(() => {
     if (page > pageCount) {
-      setParams((p) => {
+      setSearchParams((p) => {
         p.delete("page");
         return p;
       });
     }
-  }, [page, pageCount, setParams]);
+  }, [page, pageCount, setSearchParams]);
 
   const handleReset = () => {
     reset({
@@ -99,7 +91,7 @@ const Filters = ({
       page,
       limit,
     });
-    setParams("", { replace: true });
+    setSearchParams("", { replace: true });
   };
 
   useEffect(() => {

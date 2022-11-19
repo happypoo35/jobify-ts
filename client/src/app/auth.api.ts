@@ -42,8 +42,8 @@ export const authApi = api
         query: (body) => ({
           url: "user/register",
           method: "POST",
-          body,
           credentials: "include",
+          body,
         }),
         invalidatesTags: ["User", "Jobs", "Stats"],
         async onQueryStarted(_, { queryFulfilled }) {
@@ -57,8 +57,8 @@ export const authApi = api
         query: (body) => ({
           url: "user/login",
           method: "POST",
-          body,
           credentials: "include",
+          body,
         }),
         invalidatesTags: ["User", "Jobs", "Stats"],
         async onQueryStarted(_, { queryFulfilled }) {
@@ -86,8 +86,8 @@ export const authApi = api
         query: (body) => ({
           url: "user",
           method: "PATCH",
-          body,
           credentials: "include",
+          body,
         }),
         invalidatesTags: ["User"],
         async onQueryStarted(_, { queryFulfilled, dispatch }) {

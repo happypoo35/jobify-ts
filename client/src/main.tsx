@@ -4,7 +4,7 @@ import { Provider } from "react-redux";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import store from "./app/store";
-import { Root, Auth, Jobs, Layout, Profile, Stats } from "./components";
+import { Root, Auth, Jobs, Layout, Profile, Stats, Job } from "./components";
 
 import "@/styles/globals.scss";
 import { authLoader, protectLoader, rootLoader } from "./utils/loaders";
@@ -26,12 +26,25 @@ const router = createBrowserRouter([
                 element: <Stats />,
               },
               {
-                path: "profile",
-                element: <Profile />,
-              },
-              {
                 path: "jobs",
                 element: <Jobs />,
+              },
+              {
+                path: "job",
+                children: [
+                  {
+                    index: true,
+                    element: <Job />,
+                  },
+                  {
+                    path: ":jobId",
+                    element: <Job isEdit />,
+                  },
+                ],
+              },
+              {
+                path: "profile",
+                element: <Profile />,
               },
             ],
           },

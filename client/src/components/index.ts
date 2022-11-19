@@ -6,3 +6,4 @@ export { default as Dashboard } from "./dashboard";
 export { default as Stats } from "./stats";
 export { default as Profile } from "./profile";
 export { default as Jobs } from "./jobs";
+export { default as Job } from "./job";
