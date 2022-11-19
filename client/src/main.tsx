@@ -4,7 +4,16 @@ import { Provider } from "react-redux";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import store from "./app/store";
-import { Root, Auth, Jobs, Layout, Profile, Stats, Job } from "./components";
+import {
+  Root,
+  Auth,
+  Jobs,
+  Layout,
+  Profile,
+  Stats,
+  Job,
+  Error,
+} from "./components";
 
 import "@/styles/globals.scss";
 import { authLoader, protectLoader, rootLoader } from "./utils/loaders";
@@ -12,6 +21,7 @@ import { authLoader, protectLoader, rootLoader } from "./utils/loaders";
 const router = createBrowserRouter([
   {
     element: <Layout />,
+    errorElement: <Error />,
     children: [
       {
         path: "/",
@@ -64,16 +74,6 @@ const router = createBrowserRouter([
           },
         ],
       },
-      // {
-      //   element: <Dashboard.Layout />,
-      //   path: "/dashboard",
-      //   children: [
-      //     {
-      //       index: true,
-      //       element: <Dashboard.Stats />,
-      //     },
-      //   ],
-      // },
     ],
   },
 ]);

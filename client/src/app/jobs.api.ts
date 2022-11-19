@@ -53,17 +53,6 @@ export const jobsApi = api
           body,
         }),
         invalidatesTags: ["Jobs", "Stats"],
-        // async onQueryStarted(_, { queryFulfilled, dispatch }) {
-        //   try {
-        //     await queryFulfilled;
-        //     dispatch(
-        //       setAlert({
-        //         type: "success",
-        //         msg: "Job created!",
-        //       })
-        //     );
-        //   } catch (err) {}
-        // },
       }),
       getAllJobs: build.query<JobsObj, Partial<JobsQuery>>({
         query: (params) => ({
@@ -91,22 +80,12 @@ export const jobsApi = api
           body,
         }),
         invalidatesTags: ["Jobs", "Job"],
-        // async onQueryStarted(_, { queryFulfilled, dispatch }) {
-        //   try {
-        //     await queryFulfilled;
-        //     dispatch(
-        //       setAlert({
-        //         type: "success",
-        //         msg: "Job updated!",
-        //       })
-        //     );
-        //   } catch (err) {}
-        // },
       }),
-      deleteJob: build.mutation({
+      deleteJob: build.mutation<void, string>({
         query: (jobId) => ({
           url: `jobs/${jobId}`,
           method: "DELETE",
+          credentials: "include",
         }),
         invalidatesTags: ["Jobs", "Stats"],
       }),

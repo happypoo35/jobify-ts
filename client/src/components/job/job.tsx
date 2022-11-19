@@ -152,14 +152,6 @@ const AddJob = ({ isEdit }: { isEdit?: boolean }) => {
             setValue={setValue}
             register={register}
           />
-          {/* <Button
-            type="submit"
-            className="btn btn-block"
-            showAlert
-            isLoading={isEdit ? isUpdating : isCreating}
-          >
-            Submit
-          </Button> */}
           <div data-buttons>
             <Button
               type="submit"
@@ -174,14 +166,6 @@ const AddJob = ({ isEdit }: { isEdit?: boolean }) => {
             </ButtonInline>
           </div>
         </section>
-        {/* <button
-          type="button"
-          className="btn-inline"
-          style={{ marginTop: "1rem" }}
-          onClick={() => reset()}
-        >
-          {isEdit ? "Reset changes" : "Reset form"}
-        </button> */}
       </Form>
     </section>
   );

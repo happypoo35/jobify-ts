@@ -40,7 +40,7 @@ const Select = <T extends FieldValues>({
   useOutsideClick(selectRef, () => setShow(false));
 
   const setSelected = (el: FieldPathValue<T, Path<T>>) => {
-    setValue(name, el);
+    setValue(name, el, { shouldDirty: true });
     setURLParam?.(name, el);
   };
 
