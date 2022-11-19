@@ -84,7 +84,7 @@ const AddJob = ({ isEdit }: { isEdit?: boolean }) => {
       setTimeout(() => navigate("/jobs"), 1000);
     } catch (err: any) {
       if (err.data?.errors) {
-        err.data.errors.map((el: { key: keyof JobRequest; msg: "string" }) =>
+        err.data.errors.map((el: { key: keyof JobRequest; msg: string }) =>
           setError(el.key, { type: "manual", message: el.msg })
         );
       }
@@ -100,7 +100,7 @@ const AddJob = ({ isEdit }: { isEdit?: boolean }) => {
       setTimeout(() => navigate("/jobs"), 1000);
     } catch (err: any) {
       if (err.data?.errors) {
-        err.data.errors.map((el: { key: keyof JobRequest; msg: "string" }) =>
+        err.data.errors.map((el: { key: keyof JobRequest; msg: string }) =>
           setError(el.key, { type: "manual", message: el.msg })
         );
       }

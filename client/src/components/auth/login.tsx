@@ -79,32 +79,5 @@ const Login = () => {
       </section>
     </Form>
   );
-
-  // return (
-  //   <form className="form" noValidate onSubmit={handleSubmit(onSubmit)}>
-  //     <h1 className="h3">Login</h1>
-  //     <div className="form-fields">
-  //       <Input
-  //         type="email"
-  //         label="email"
-  //         error={errors.email?.message}
-  //         {...register("email")}
-  //       />
-  //       <Input
-  //         type="password"
-  //         label="password"
-  //         error={errors.password?.message}
-  //         {...register("password")}
-  //       />
-  //       <Button /* className="btn btn-block" */ /* type="submit" */ /* isLoading={isLoading} */
-  //       >
-  //         Submit
-  //       </Button>
-  //     </div>
-  //     <p>
-  //       Not a member yet? <Link to="/register">Register</Link>
-  //     </p>
-  //   </form>
-  // );
 };
 export default Login;

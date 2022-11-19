@@ -32,11 +32,24 @@ const Register = () => {
     register,
     handleSubmit,
     setError,
+    clearErrors,
     formState: { errors },
   } = useForm<RegisterRequest>({ resolver: yupResolver(schema) });
 
   const onSubmit = async (data: RegisterRequest) => {
-    console.log(data);
+    try {
+      await createUser(data).unwrap();
+      navigate("/", { replace: true });
+    } catch (err: any) {
+      if (err.data?.errors) {
+        err.data.errors.map((el: { key: keyof RegisterRequest; msg: string }) =>
+          setError(el.key, { type: "manual", message: el.msg })
+        );
+      }
+      setTimeout(() => {
+        clearErrors();
+      }, 4000);
+    }
   };
 
   return (
@@ -75,4 +88,5 @@ const Register = () => {
     </Form>
   );
 };
+
 export default Register;
