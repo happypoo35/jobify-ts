@@ -106,6 +106,17 @@ const Filters = ({
     reset(defaultValues);
   }, [reset, defaultValues]);
 
+  const resultsText = (
+    <span>
+      Displaying{" "}
+      <b>
+        {(page - 1) * limit + 1}-
+        {page * limit < jobsCount ? page * limit : jobsCount}
+      </b>{" "}
+      of {jobsCount} job{jobsCount !== 1 ? "s" : ""} found
+    </span>
+  );
+
   return (
     <div className={s.container}>
       <form>
@@ -139,9 +150,7 @@ const Filters = ({
       <div className={s.stats}>
         <span>
           {jobsCount > 0 ? <FiEye /> : <FiEyeOff />}
-          {jobsCount > 0
-            ? `${jobsCount} job${jobsCount !== 1 && "s"} found`
-            : "no jobs to display"}
+          {jobsCount > 0 ? resultsText : "no jobs to display"}
         </span>
         <ButtonInline type="button" onClick={handleReset}>
           Clear filters

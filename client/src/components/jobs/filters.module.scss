@@ -39,10 +39,11 @@
   display: flex;
   justify-content: space-between;
 
-  span {
+  > span {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    color: color(gray, 400);
+    color: color(gray, 500);
+    font-size: 0.875rem;
   }
 }
