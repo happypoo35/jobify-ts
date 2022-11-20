@@ -45,9 +45,10 @@ export const getAllJobs = async (req: Request, res: Response) => {
 
   const jobs = await result.skip(skip).limit(limit);
   const nHits = await jobModel.countDocuments(queryObj);
+  const total = await jobModel.countDocuments({ createdBy: req.user._id });
   const nPages = Math.ceil(nHits / limit);
 
-  res.status(200).json({ nHits, nPages, page, limit, jobs });
+  res.status(200).json({ total, nHits, nPages, page, limit, jobs });
 };
 
 export const getJob = async (req: Request, res: Response) => {

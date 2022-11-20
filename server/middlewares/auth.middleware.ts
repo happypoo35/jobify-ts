@@ -21,11 +21,18 @@ export const protect = async (
 
   const user = await userModel.findById(decoded.userId);
 
-  if (!user)
+  if (!user) {
+    const secure = req.secure || req.headers["x-forwarded-proto"] === "https";
+    res.cookie("token", "", {
+      maxAge: 0,
+      secure,
+      httpOnly: true,
+    });
     throw new ApiError(
       "The user belonging to this token no longer exists",
       401
     );
+  }
 
   user.refreshJWT(req, res);
   req.user = user;

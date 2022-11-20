@@ -14,6 +14,7 @@ export interface Job {
 
 export interface JobsObj {
   jobs: Job[];
+  total: number;
   nHits: number;
   nPages: number;
   page: number;
