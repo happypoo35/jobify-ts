@@ -1,9 +1,9 @@
 import ApiError from "../errors/custom.error";
 import userModel from "../models/user.model";
+import jobModel from "../models/job.model";
 import { Request, Response } from "express";
 
-import jobModel from "../models/job.model";
-import data from "../data.json";
+// import data from "../data.json";
 
 export const getUser = async (req: Request, res: Response) => {
   const user = await userModel.findById(req.user._id);
@@ -18,10 +18,10 @@ export const register = async (req: Request, res: Response) => {
     password,
   }: { name: string; email: string; password: string } = req.body;
   const user = await userModel.create({ name, email, password });
-  const jobs = data
-    .slice(0, 24)
-    .map((job) => ({ ...job, createdBy: user._id }));
-  await jobModel.create(jobs);
+  // const jobs = data
+  //   .slice(0, 24)
+  //   .map((job) => ({ ...job, createdBy: user._id }));
+  // await jobModel.create(jobs);
 
   user.createAndSendJWT(user, req, res, 201);
 };
@@ -70,4 +70,11 @@ export const logout = (req: Request, res: Response) => {
   });
 
   res.status(204).send("Logged out");
+};
+
+export const deleteUser = async (req: Request, res: Response) => {
+  await userModel.findByIdAndDelete(req.user._id);
+  await jobModel.deleteMany({ createdBy: req.user._id });
+
+  res.status(204).send("User deleted");
 };

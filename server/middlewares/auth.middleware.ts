@@ -14,26 +14,23 @@ export const protect = async (
   if (!token)
     throw new ApiError("Unauthorized. Please log in to gain access", 401);
 
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET!);
+  const decoded = jwt.verify(token, process.env.JWT_SECRET!);
 
-    if (typeof decoded === "string") throw new ApiError("Invalid token", 401);
-
-    const user = await userModel.findById(decoded.userId);
-
-    if (!user)
-      throw new ApiError(
-        "The user belonging to this token no longer exists",
-        401
-      );
-
-    user.refreshJWT(req, res);
-    req.user = user;
-
-    next();
-  } catch (err) {
+  if (typeof decoded === "string")
     throw new ApiError("Token expired. Please log in to gain access", 401);
-  }
+
+  const user = await userModel.findById(decoded.userId);
+
+  if (!user)
+    throw new ApiError(
+      "The user belonging to this token no longer exists",
+      401
+    );
+
+  user.refreshJWT(req, res);
+  req.user = user;
+
+  next();
 };
 
 export const checkPermissions = async (

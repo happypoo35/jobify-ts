@@ -6,6 +6,7 @@ import {
   updateUser,
   getUser,
   logout,
+  deleteUser,
 } from "../controllers/user.controller";
 import { protect } from "../middlewares/auth.middleware";
 
@@ -23,6 +24,7 @@ router.post("/register", apiLimiter, register);
 
 router.use(protect);
 
+router.delete("/delete", deleteUser);
 router.route("/").get(getUser).patch(updateUser).delete(logout);
 
 export default router;
