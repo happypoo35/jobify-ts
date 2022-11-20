@@ -1,5 +1,4 @@
 import express from "express";
-import rateLimiter from "express-rate-limit";
 import {
   register,
   login,
@@ -9,18 +8,12 @@ import {
   deleteUser,
 } from "../controllers/user.controller";
 import { protect } from "../middlewares/auth.middleware";
-
-const apiLimiter = rateLimiter({
-  windowMs: 15 * 60 * 1000,
-  max: 10,
-  message:
-    "Too many requests from this IP address, please try again in 15 minutes",
-});
+import apiLimiter from "../middlewares/limiter.middleware";
 
 const router = express.Router();
 
-router.post("/login", apiLimiter, login);
-router.post("/register", apiLimiter, register);
+router.post("/login", apiLimiter(), login);
+router.post("/register", apiLimiter(), register);
 
 router.use(protect);
 

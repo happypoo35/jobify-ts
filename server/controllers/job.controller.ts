@@ -1,12 +1,19 @@
 import { Request, Response } from "express";
 import jobModel from "../models/job.model";
 import data from "../data.json";
+import ApiError from "../errors/custom.error";
 
 interface QueryObj<T, K> {
   [key: string]: T | K;
 }
 
 export const createMockJobs = async (req: Request, res: Response) => {
+  const userJobs = await jobModel.countDocuments({ createdBy: req.user._id });
+
+  if (userJobs > 0) {
+    throw new ApiError("Forbidden action", 403);
+  }
+
   const jobs = data
     .slice(0, 24)
     .map((job) => ({ ...job, createdBy: req.user._id }));
