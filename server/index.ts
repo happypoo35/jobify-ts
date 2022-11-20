@@ -9,10 +9,13 @@ import "express-async-errors";
 
 import userRouter from "./routes/user.route";
 import jobRouter from "./routes/job.route";
+import staticRouter from "./routes/static.route";
 import { errorHandler, notFound } from "./middlewares/error.middleware";
+import path from "path";
 
 const app = express();
-const port = process.env.PORT || 4000;
+
+app.use(express.static(path.resolve(__dirname, "../client/dist")));
 
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
@@ -29,10 +32,13 @@ app.use(cookieParser());
 
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/jobs", jobRouter);
+// app.use("*", staticRouter);
 
 // Errors
 app.use(notFound);
 app.use(errorHandler);
+
+const port = process.env.PORT || 4000;
 
 const start = async () => {
   try {

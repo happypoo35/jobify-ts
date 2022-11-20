@@ -8,6 +8,8 @@
     "server": "npm run dev --prefix server --ignore client",
     "client": "npm run dev --prefix client",
     "build-server": "npm run build --prefix server",
+    "build-client": "npm run build --prefix client",
+    "build": "npm run build --prefix server && npm run build --prefix client",
     "dev": "concurrently -k -c \"auto\" \"npm:server\" \"npm:client\""
   },
   "keywords": [],
