@@ -6,6 +6,7 @@ import {
   getAllJobs,
   showStats,
   getJob,
+  createMockJobs,
 } from "../controllers/job.controller";
 import { checkPermissions, protect } from "../middlewares/auth.middleware";
 
@@ -15,6 +16,7 @@ router.use(protect);
 
 router.route("/").get(getAllJobs).post(createJob);
 router.get("/stats", showStats);
+router.post("/add-mock-jobs", createMockJobs);
 
 router
   .route("/:jobId")

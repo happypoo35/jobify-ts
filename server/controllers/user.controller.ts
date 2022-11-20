@@ -3,8 +3,6 @@ import userModel from "../models/user.model";
 import jobModel from "../models/job.model";
 import { Request, Response } from "express";
 
-// import data from "../data.json";
-
 export const getUser = async (req: Request, res: Response) => {
   const user = await userModel.findById(req.user._id);
 
@@ -18,10 +16,6 @@ export const register = async (req: Request, res: Response) => {
     password,
   }: { name: string; email: string; password: string } = req.body;
   const user = await userModel.create({ name, email, password });
-  // const jobs = data
-  //   .slice(0, 24)
-  //   .map((job) => ({ ...job, createdBy: user._id }));
-  // await jobModel.create(jobs);
 
   user.createAndSendJWT(user, req, res, 201);
 };

@@ -1,13 +1,14 @@
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
+import { JobsQuery, useGetAllJobsQuery } from "@/app/jobs.api";
+
 import { SORT_OPTS, STATUS_OPTS, TYPE_OPTS } from "@/utils/constants";
 import { ReactComponent as Spinner } from "@/assets/spinner.svg";
 import Filters from "./filters";
 import Card from "./card";
 import Pagination from "./pagination";
-
-import { JobsQuery, useGetAllJobsQuery } from "@/app/jobs.api";
+import EmptyJobs from "./emptyJobs";
 
 import s from "./jobs.module.scss";
 
@@ -45,6 +46,10 @@ const Jobs = () => {
 
   if (!data) {
     return null;
+  }
+
+  if (data.total === 0) {
+    return <EmptyJobs />;
   }
 
   return (

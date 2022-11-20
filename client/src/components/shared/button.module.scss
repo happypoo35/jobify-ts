@@ -16,8 +16,7 @@
   }
 
   &[data-loading],
-  &[data-success],
-  &:disabled {
+  &[data-success] {
     pointer-events: none;
   }
 

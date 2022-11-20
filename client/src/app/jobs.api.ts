@@ -46,6 +46,14 @@ export const jobsApi = api
   })
   .injectEndpoints({
     endpoints: (build) => ({
+      createMockJobs: build.mutation<JobsObj, void>({
+        query: () => ({
+          url: "jobs/add-mock-jobs",
+          method: "POST",
+          credentials: "include",
+        }),
+        invalidatesTags: ["Jobs", "Stats"],
+      }),
       createJob: build.mutation<Job, JobRequest>({
         query: (body) => ({
           url: "jobs",
@@ -102,6 +110,7 @@ export const jobsApi = api
   });
 
 export const {
+  useCreateMockJobsMutation,
   useCreateJobMutation,
   useGetAllJobsQuery,
   useGetJobQuery,

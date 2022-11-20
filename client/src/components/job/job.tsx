@@ -68,7 +68,7 @@ const AddJob = ({ isEdit }: { isEdit?: boolean }) => {
     control,
     setValue,
     reset,
-    formState: { errors, isDirty },
+    formState: { errors, isDirty, isValid },
   } = useForm<JobRequest>({ resolver: yupResolver(schema), defaultValues });
 
   const values = useWatch({ control });
@@ -157,9 +157,9 @@ const AddJob = ({ isEdit }: { isEdit?: boolean }) => {
               type="submit"
               alert={alert}
               isLoading={isEdit ? isUpdating : isCreating}
-              disabled={!isDirty}
+              disabled={!isDirty || !isValid}
             >
-              Save changes
+              {isEdit ? "Save changes" : "Submit"}
             </Button>
             <ButtonInline type="reset" onClick={handleReset}>
               {isEdit ? "Reset changes" : "Reset form"}

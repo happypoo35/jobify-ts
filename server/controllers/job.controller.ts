@@ -1,9 +1,19 @@
 import { Request, Response } from "express";
 import jobModel from "../models/job.model";
+import data from "../data.json";
 
 interface QueryObj<T, K> {
   [key: string]: T | K;
 }
+
+export const createMockJobs = async (req: Request, res: Response) => {
+  const jobs = data
+    .slice(0, 24)
+    .map((job) => ({ ...job, createdBy: req.user._id }));
+  await jobModel.create(jobs);
+
+  res.status(201).send("Mock jobs added");
+};
 
 export const createJob = async (req: Request, res: Response) => {
   req.body.createdBy = req.user._id;
