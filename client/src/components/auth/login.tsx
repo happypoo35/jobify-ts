@@ -41,7 +41,7 @@ const Login = () => {
       });
       setError("password", {
         type: "manual",
-        message: err?.data?.msg || "Incorrect email or password",
+        message: err?.data?.msg || "Invalid email or password",
       });
       setTimeout(() => {
         clearErrors();
