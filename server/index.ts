@@ -5,7 +5,7 @@ import cookieParser from "cookie-parser";
 import morgan from "morgan";
 import helmet from "helmet";
 import path from "path";
-import express from "express";
+import express, { Request, Response } from "express";
 import "express-async-errors";
 
 import userRouter from "./routes/user.route";
@@ -31,6 +31,9 @@ app.use(cookieParser());
 
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/jobs", jobRouter);
+app.use("*", (req: Request, res: Response) => {
+  res.sendFile(path.resolve(__dirname, "../client/dist", "index.html"));
+});
 
 // Errors
 app.use(notFound);
