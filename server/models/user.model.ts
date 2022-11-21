@@ -1,41 +1,42 @@
-import { Model, Schema, Document, Types, model } from "mongoose";
+import { model, Model, Schema, Types } from "mongoose";
 import validator from "validator";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { Request, Response } from "express";
 
-export interface UserInput {
+export interface User {
+  _id: Types.ObjectId;
   name: string;
   email: string;
   password: string;
   lastName?: string;
   location?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
-interface UserDocument extends UserInput, UserMethods, Document {
-  _id: Types.ObjectId;
-  createdAt: Date;
-  updatedAt: Date;
+interface UserWithouPassword extends Omit<User, "password"> {
+  password: string | undefined;
 }
 
 interface UserMethods {
-  createJWT(this: UserDocument): string;
-  refreshJWT(user: UserDocument, req: Request, res: Response): void;
+  createJWT(): string;
+  refreshJWT(req: Request, res: Response): void;
   createAndSendJWT(
-    user: UserDocument,
+    user: UserWithouPassword,
     req: Request,
     res: Response,
     code: number
   ): void;
   comparePassword(
-    this: UserDocument,
+    this: User & UserMethods,
     candidatePassword: string
   ): Promise<boolean>;
 }
 
-type UserModel = Model<UserInput, {}, UserMethods>;
+type UserModel = Model<User, {}, UserMethods>;
 
-const schema = new Schema<UserInput, UserModel, UserMethods>(
+const schema = new Schema<User, UserModel, UserMethods>(
   {
     name: {
       type: String,
@@ -75,13 +76,13 @@ schema.pre("save", async function () {
 });
 
 schema.methods.createJWT = function () {
-  return jwt.sign({ userId: this._id }, process.env.JWT_SECRET as string, {
-    expiresIn: process.env.JWT_LIFETIME,
+  return jwt.sign({ userId: this._id }, process.env.JWT_SECRET!, {
+    expiresIn: process.env.JWT_LIFETIME!,
   });
 };
 
-schema.methods.refreshJWT = function (user, req, res) {
-  const token = user.createJWT();
+schema.methods.refreshJWT = function (req, res) {
+  const token = this.createJWT();
   const secure = req.secure || req.headers["x-forwarded-proto"] === "https";
 
   res.cookie("token", token, {
@@ -92,10 +93,10 @@ schema.methods.refreshJWT = function (user, req, res) {
 };
 
 schema.methods.createAndSendJWT = function (user, req, res, code) {
-  user.refreshJWT(user, req, res);
-  // user.password = undefined;
+  this.refreshJWT(req, res);
+  user.password = undefined;
 
-  res.status(code).json({ user });
+  res.status(code).json(user);
 };
 
 schema.methods.comparePassword = async function (candidatePassword) {
@@ -103,6 +104,6 @@ schema.methods.comparePassword = async function (candidatePassword) {
   return isMatch;
 };
 
-const User = model("User", schema);
+const userModel = model("User", schema);
 
-export default User;
+export default userModel;

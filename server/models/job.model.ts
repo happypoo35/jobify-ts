@@ -1,6 +1,18 @@
-import mongoose from "mongoose";
+import { model, Schema, Types } from "mongoose";
 
-const schema = new mongoose.Schema(
+export interface Job {
+  _id: Types.ObjectId;
+  company: string;
+  position: string;
+  status: "interview" | "declined" | "pending";
+  jobType: "full-time" | "part-time" | "remote" | "internship";
+  jobLocation: string;
+  createdBy: Types.ObjectId;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+const schema = new Schema<Job>(
   {
     company: {
       type: String,
@@ -34,7 +46,7 @@ const schema = new mongoose.Schema(
       required: [true, "Please provide job location"],
     },
     createdBy: {
-      type: mongoose.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "User",
       required: [true, "Please provide user"],
     },
@@ -42,6 +54,6 @@ const schema = new mongoose.Schema(
   { timestamps: true, versionKey: false }
 );
 
-const Job = mongoose.model("Job", schema);
+const jobModel = model<Job>("Job", schema);
 
-export default Job;
+export default jobModel;

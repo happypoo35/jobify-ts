@@ -1,15 +1,16 @@
 import { Link, useNavigate } from "react-router-dom";
-import { Field, Button } from "components/Common";
 
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
-import { useCreateUserMutation } from "app/api.auth";
+import { RegisterRequest, useCreateUserMutation } from "@/app/auth.api";
+
+import { Input, Button, Form } from "../shared";
 
 const Register = () => {
   const navigate = useNavigate();
-  const [createUser, { isLoading }] = useCreateUserMutation();
+  const [createUser, { isLoading, isSuccess }] = useCreateUserMutation();
 
   const schema = yup.object().shape({
     name: yup
@@ -31,51 +32,61 @@ const Register = () => {
     register,
     handleSubmit,
     setError,
+    clearErrors,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(schema) });
+  } = useForm<RegisterRequest>({ resolver: yupResolver(schema) });
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: RegisterRequest) => {
     try {
       await createUser(data).unwrap();
-      navigate("/dashboard", { replace: true });
-    } catch (err) {
+      navigate("/", { replace: true });
+    } catch (err: any) {
       if (err.data?.errors) {
-        err.data.errors.map((el) =>
+        err.data.errors.map((el: { key: keyof RegisterRequest; msg: string }) =>
           setError(el.key, { type: "manual", message: el.msg })
         );
       }
+      setTimeout(() => {
+        clearErrors();
+      }, 5000);
     }
   };
 
   return (
-    <form className="form" onSubmit={handleSubmit(onSubmit)}>
-      <h1 className="h3">Register</h1>
-      <div className="form-fields">
-        <Field
+    <Form onSubmit={handleSubmit(onSubmit)}>
+      <section>
+        <h1 data-h3>Register</h1>
+        <Input
           label="name"
           error={errors.name?.message}
           {...register("name")}
         />
-        <Field
+        <Input
           type="email"
           label="email"
           error={errors.email?.message}
           {...register("email")}
         />
-        <Field
+        <Input
           type="password"
           label="password"
           error={errors.password?.message}
           {...register("password")}
         />
-        <Button className="btn btn-block" type="submit" isLoading={isLoading}>
-          Submit
-        </Button>
-      </div>
-      <p>
-        Already a member? <Link to="/login">Login</Link>
-      </p>
-    </form>
+        <div data-buttons>
+          <Button type="submit" isLoading={isLoading || isSuccess}>
+            Submit
+          </Button>
+          <p>
+            Already a member?{" "}
+            <Link to="/login" data-link>
+              Login
+            </Link>
+          </p>
+        </div>
+      </section>
+    </Form>
   );
 };
+
 export default Register;

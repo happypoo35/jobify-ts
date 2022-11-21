@@ -1,0 +1,52 @@
+.options {
+  position: relative;
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  font-size: 1.125rem;
+  color: color(gray, 500);
+
+  @include hover {
+    color: color(primary, 500);
+  }
+}
+
+.dropdown {
+  position: absolute;
+  right: 0;
+  z-index: 1;
+  background: white;
+  box-shadow: shadow(400);
+  border-radius: 0.25rem;
+  padding: 0.5rem 0;
+  display: none;
+
+  &[data-active] {
+    display: initial;
+    transform-origin: top right;
+    animation: 150ms dropdown;
+  }
+
+  span {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1.5rem 0.5rem 1rem;
+    font-size: 0.875rem;
+    color: color(gray, 600);
+
+    svg {
+      font-size: 1rem;
+    }
+
+    @include hover {
+      background: color(gray, 10);
+    }
+  }
+}

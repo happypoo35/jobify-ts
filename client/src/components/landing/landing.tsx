@@ -1,7 +1,6 @@
-import { Link } from "react-router-dom";
-import { ReactComponent as JobifyLogo } from "@/assets/logo.svg";
 import { ReactComponent as HeroImg } from "@/assets/main-alternative.svg";
-import { Button } from "../shared";
+import { Logo } from "../shared";
+import { ButtonLink } from "../shared/button";
 
 import s from "./landing.module.scss";
 
@@ -9,9 +8,7 @@ const Landing = () => {
   return (
     <>
       <header className={s.header} data-container="fixed">
-        <Link to="/">
-          <JobifyLogo />
-        </Link>
+        <Logo />
       </header>
       <main className={s.main} data-container="fixed">
         <section aria-label="Welcome to jobify">
@@ -25,9 +22,7 @@ const Landing = () => {
               quinoa lo-fi tote bag adaptogen everyday carry meggings brunch
               narwhal.
             </p>
-            <Button>
-              <Link to="/login">Get started</Link>
-            </Button>
+            <ButtonLink to="/login">Get started</ButtonLink>
           </article>
           <HeroImg />
         </section>
