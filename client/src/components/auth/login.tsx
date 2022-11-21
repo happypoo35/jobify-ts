@@ -18,7 +18,7 @@ const schema = yup.object().shape({
 
 const Login = () => {
   const navigate = useNavigate();
-  const [login, { isLoading }] = useLoginMutation();
+  const [login, { isLoading, isSuccess }] = useLoginMutation();
 
   const {
     register,
@@ -45,7 +45,7 @@ const Login = () => {
       });
       setTimeout(() => {
         clearErrors();
-      }, 4000);
+      }, 5000);
     }
   };
 
@@ -66,7 +66,7 @@ const Login = () => {
           {...register("password")}
         />
         <div data-buttons>
-          <Button type="submit" isLoading={isLoading}>
+          <Button type="submit" isLoading={isLoading || isSuccess}>
             Submit
           </Button>
           <p>

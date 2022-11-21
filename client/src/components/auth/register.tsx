@@ -10,7 +10,7 @@ import { Input, Button, Form } from "../shared";
 
 const Register = () => {
   const navigate = useNavigate();
-  const [createUser, { isLoading }] = useCreateUserMutation();
+  const [createUser, { isLoading, isSuccess }] = useCreateUserMutation();
 
   const schema = yup.object().shape({
     name: yup
@@ -48,7 +48,7 @@ const Register = () => {
       }
       setTimeout(() => {
         clearErrors();
-      }, 4000);
+      }, 5000);
     }
   };
 
@@ -74,7 +74,7 @@ const Register = () => {
           {...register("password")}
         />
         <div data-buttons>
-          <Button type="submit" isLoading={isLoading}>
+          <Button type="submit" isLoading={isLoading || isSuccess}>
             Submit
           </Button>
           <p>
