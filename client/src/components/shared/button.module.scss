@@ -11,7 +11,8 @@
     background: color(primary, 700);
   }
 
-  &:disabled {
+  &:disabled,
+  &[data-disabled] {
     background: color(gray, 300);
   }
 

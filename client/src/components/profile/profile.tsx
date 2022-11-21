@@ -44,8 +44,10 @@ const Profile = () => {
     handleSubmit,
     setError,
     reset,
-    formState: { errors, isDirty },
+    formState: { errors, isDirty, isValid },
   } = useForm<UpdateRequest>({ resolver: yupResolver(schema), defaultValues });
+
+  const isDisabled = !isDirty || !isValid;
 
   const handleReset = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -53,6 +55,7 @@ const Profile = () => {
   };
 
   const onSubmit = async (data: UpdateRequest) => {
+    if (isDisabled) return;
     try {
       const result = await updateUser(data).unwrap();
       setAlert({ isSuccess: true, message: "Profile updated!" });
@@ -101,7 +104,7 @@ const Profile = () => {
               type="submit"
               alert={alert}
               isLoading={isLoading}
-              disabled={!isDirty}
+              data-disabled={isDisabled || undefined}
             >
               Save changes
             </Button>

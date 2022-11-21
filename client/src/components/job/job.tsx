@@ -69,15 +69,20 @@ const AddJob = ({ isEdit }: { isEdit?: boolean }) => {
     setValue,
     reset,
     formState: { errors, isDirty, isValid },
-  } = useForm<JobRequest>({ resolver: yupResolver(schema), defaultValues });
+  } = useForm<JobRequest>({
+    resolver: yupResolver(schema),
+    defaultValues,
+  });
 
   const values = useWatch({ control });
+  const isDisabled = !isDirty || !isValid;
 
   useEffect(() => {
     reset(defaultValues);
   }, [reset, defaultValues]);
 
   const onCreate = async (data: JobRequest) => {
+    if (isDisabled) return;
     try {
       await createJob(data).unwrap();
       setAlert({ isSuccess: true, message: "Job created!" });
@@ -93,7 +98,7 @@ const AddJob = ({ isEdit }: { isEdit?: boolean }) => {
   };
 
   const onUpdate = async (data: JobRequest) => {
-    if (!jobId) return;
+    if (!jobId || isDisabled) return;
     try {
       await updateJob({ body: data, jobId }).unwrap();
       setAlert({ isSuccess: true, message: "Job updated!" });
@@ -157,7 +162,7 @@ const AddJob = ({ isEdit }: { isEdit?: boolean }) => {
               type="submit"
               alert={alert}
               isLoading={isEdit ? isUpdating : isCreating}
-              disabled={!isDirty || !isValid}
+              data-disabled={isDisabled || undefined}
             >
               {isEdit ? "Save changes" : "Submit"}
             </Button>
