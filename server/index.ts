@@ -14,7 +14,7 @@ import { errorHandler, notFound } from "./middlewares/error.middleware";
 
 const app = express();
 const staticPath =
-  process.env.NODE_ENV === "production" ? "../client" : "./dist";
+  process.env.NODE_ENV === "production" ? "../client" : "../client/dist";
 
 app.use(express.static(path.resolve(__dirname, staticPath)));
 
