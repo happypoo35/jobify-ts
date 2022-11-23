@@ -5,11 +5,9 @@ import * as yup from "yup";
 import { selectUser } from "@/features/user.slice";
 import { UpdateRequest, useUpdateUserMutation } from "@/app/auth.api";
 
-import { Input, Button, Form } from "@/components/shared";
+import { Input, Button, Form, FormContainer } from "@/components/shared";
 import { useAlert, useAppSelector } from "@/hooks";
 import { ButtonInline } from "../shared/button";
-
-import s from "./profile.module.scss";
 
 const Profile = () => {
   const { alert, setAlert } = useAlert();
@@ -74,7 +72,7 @@ const Profile = () => {
   };
 
   return (
-    <section className={s.profile}>
+    <FormContainer>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <h2 data-h3>Profile</h2>
         <section>
@@ -114,7 +112,7 @@ const Profile = () => {
           </div>
         </section>
       </Form>
-    </section>
+    </FormContainer>
   );
 };
 export default Profile;

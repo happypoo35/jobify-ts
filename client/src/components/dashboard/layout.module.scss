@@ -29,6 +29,11 @@
   }
 }
 
+.content {
+  display: flex;
+  flex-direction: column;
+}
+
 .header {
   position: sticky;
   top: 0;
@@ -64,9 +69,11 @@
 
     @include tablet {
       display: unset;
+    }
 
-      img {
-        max-height: 2.75rem;
+    @include mobileL {
+      svg {
+        font-size: 2.5rem;
       }
     }
   }

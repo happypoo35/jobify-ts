@@ -14,12 +14,10 @@ import {
   useUpdateJobMutation,
 } from "@/app/jobs.api";
 
-import { Input, Button, Select, Form } from "../shared";
+import { Input, Button, Select, Form, FormContainer } from "../shared";
 import { STATUS_OPTS, TYPE_OPTS } from "@/utils/constants";
 import { useAlert } from "@/hooks";
 import { ButtonInline } from "../shared/button";
-
-import s from "./job.module.scss";
 
 const AddJob = ({ isEdit }: { isEdit?: boolean }) => {
   const navigate = useNavigate();
@@ -121,7 +119,7 @@ const AddJob = ({ isEdit }: { isEdit?: boolean }) => {
   if (isInvalidJobId) return <Navigate to="/dashboard/error" replace />;
 
   return (
-    <section className={s.job}>
+    <FormContainer>
       <Form onSubmit={handleSubmit(isEdit ? onUpdate : onCreate)}>
         <h2 data-h3>{isEdit ? "Edit Job" : "Add job"}</h2>
         <section>
@@ -172,7 +170,7 @@ const AddJob = ({ isEdit }: { isEdit?: boolean }) => {
           </div>
         </section>
       </Form>
-    </section>
+    </FormContainer>
   );
 };
 export default AddJob;

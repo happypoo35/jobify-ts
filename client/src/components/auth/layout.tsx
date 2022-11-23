@@ -1,15 +1,15 @@
 import { Outlet } from "react-router-dom";
-import { Logo } from "../shared";
+import { FormContainer, Logo } from "../shared";
 
 import s from "./layout.module.scss";
 
 const Layout = () => {
   return (
     <main className={s.main} data-container>
-      <section className={s.card} aria-label="authorization">
+      <FormContainer className={s.card}>
         <Logo />
         <Outlet />
-      </section>
+      </FormContainer>
     </main>
   );
 };

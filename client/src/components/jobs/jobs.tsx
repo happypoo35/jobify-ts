@@ -45,7 +45,11 @@ const Jobs = () => {
   }, [queryParams, setSearchParams]);
 
   if (!data) {
-    return null;
+    return (
+      <div className={s.loading}>
+        <Spinner style={{ fontSize: "3rem" }} />
+      </div>
+    );
   }
 
   if (data.total === 0) {

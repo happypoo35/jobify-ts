@@ -16,7 +16,13 @@ import {
 } from "./components";
 
 import "@/styles/globals.scss";
-import { authLoader, protectLoader, rootLoader } from "./utils/loaders";
+import {
+  authLoader,
+  jobLoader,
+  jobsLoader,
+  protectLoader,
+  rootLoader,
+} from "./utils/loaders";
 
 const router = createBrowserRouter([
   {
@@ -37,6 +43,7 @@ const router = createBrowserRouter([
               },
               {
                 path: "jobs",
+                loader: jobsLoader,
                 element: <Jobs />,
               },
               {
@@ -49,6 +56,7 @@ const router = createBrowserRouter([
                   {
                     path: ":jobId",
                     element: <Job isEdit />,
+                    loader: jobLoader,
                   },
                 ],
               },
