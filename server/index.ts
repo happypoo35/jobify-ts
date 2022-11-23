@@ -13,8 +13,10 @@ import jobRouter from "./routes/job.route";
 import { errorHandler, notFound } from "./middlewares/error.middleware";
 
 const app = express();
+const staticPath =
+  process.env.NODE_ENV === "production" ? "../client" : "../client/dist";
 
-app.use(express.static(path.resolve(__dirname, "../client/dist")));
+app.use(express.static(path.resolve(__dirname, staticPath)));
 
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
@@ -32,7 +34,7 @@ app.use(cookieParser());
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/jobs", jobRouter);
 app.use("*", (req: Request, res: Response) => {
-  res.sendFile(path.resolve(__dirname, "../client/dist", "index.html"));
+  res.sendFile(path.resolve(__dirname, staticPath, "index.html"));
 });
 
 // Errors
