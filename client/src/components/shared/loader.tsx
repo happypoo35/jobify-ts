@@ -3,7 +3,6 @@ import s from "./loader.module.scss";
 
 const Loader = () => {
   const { state } = useNavigation();
-  console.log(state);
 
   if (state === "loading")
     return (

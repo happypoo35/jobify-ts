@@ -14,7 +14,6 @@ import s from "./filters.module.scss";
 
 interface Props {
   jobsCount: number;
-  pageCount: number;
   page: number;
   limit: number;
   params: Partial<JobsQuery>;
@@ -22,7 +21,6 @@ interface Props {
 
 const Filters = ({
   jobsCount = 0,
-  pageCount = 0,
   page,
   limit,
   params,
@@ -72,15 +70,6 @@ const Filters = ({
     }
     setSearchParams(searchParams, { replace: true });
   };
-
-  useEffect(() => {
-    if (page > pageCount) {
-      setSearchParams((p) => {
-        p.delete("page");
-        return p;
-      });
-    }
-  }, [page, pageCount, setSearchParams]);
 
   const handleReset = () => {
     reset({

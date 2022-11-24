@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
 
@@ -51,6 +52,15 @@ const Pagination = ({
       handleSetPage(currentPage - 1);
     }
   };
+
+  useEffect(() => {
+    if (currentPage > pageCount) {
+      setSearchParams((p) => {
+        p.delete("page");
+        return p;
+      });
+    }
+  }, [currentPage, pageCount, setSearchParams]);
 
   // useEffect(() => {
   //   window.scrollTo({ top: 0, behavior: "smooth" });

@@ -40,7 +40,7 @@ const Jobs = () => {
       obj.page = queryParams.page;
     }
 
-    setSearchParams(obj);
+    setSearchParams(obj, { replace: true });
     setParams(obj);
   }, [queryParams, setSearchParams]);
 
@@ -60,7 +60,6 @@ const Jobs = () => {
     <section className={s.section}>
       <Filters
         jobsCount={data?.nHits}
-        pageCount={data?.nPages}
         page={data?.page}
         limit={data?.limit}
         params={params}
