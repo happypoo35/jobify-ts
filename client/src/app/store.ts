@@ -9,6 +9,7 @@ const store = configureStore({
     global: globalReducer,
     user: userReducer,
   },
+  devTools: process.env.NODE_ENV !== "production",
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(api.middleware),
 });
