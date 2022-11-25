@@ -9,7 +9,7 @@
 
   &[data-active] {
     .arrow {
-      transform: translateY(-50%) rotate(180deg);
+      rotate: 180deg;
       color: color(gray, 500);
     }
 
@@ -33,49 +33,61 @@
     pointer-events: none;
   }
 
-  .arrow {
-    position: absolute;
-    top: 50%;
-    right: 0.5rem;
-    transform: translateY(-50%);
-    font-size: 1.25rem;
-    color: color(gray, 300);
-    transition: 150ms;
-    pointer-events: none;
+  &[data-variant="standart"] {
+    input {
+      padding-right: 1rem;
+    }
+
+    .arrow {
+      right: 0;
+      top: 45%;
+      translate: none;
+    }
+  }
+}
+
+.arrow {
+  position: absolute;
+  top: 50%;
+  right: 0.5rem;
+  translate: 0 -50%;
+  font-size: 1.25rem;
+  color: color(gray, 300);
+  transition: 150ms;
+  pointer-events: none;
+}
+
+.dropdown {
+  position: absolute;
+  z-index: 1;
+  background: white;
+  width: 100%;
+  min-width: fit-content;
+  display: none;
+  box-shadow: shadow(400);
+  border-radius: 0 0 0.25rem 0.25rem;
+  padding: 0.5rem 0;
+}
+
+.item {
+  cursor: pointer;
+  padding: 0.75rem 1.25rem;
+  color: color(gray, 600);
+
+  @include hover {
+    background: color(gray, 10);
   }
 
-  .dropdown {
-    position: absolute;
-    z-index: 1;
-    background: white;
-    width: 100%;
-    min-width: fit-content;
-    display: none;
-    box-shadow: shadow(400);
-    border-radius: 0 0 0.25rem 0.25rem;
-    padding: 0.5rem 0;
-
-    .item {
-      cursor: pointer;
-      padding: 0.75rem 1.25rem;
-      color: color(gray, 600);
-
-      @include hover {
-        background: color(gray, 10);
-      }
-
-      &[data-active] {
-        background: color(gray, 50);
-      }
-    }
+  &[data-active] {
+    background: color(gray, 50);
   }
 }
 
 @keyframes dropdown {
   from {
-    transform: scale(0.75);
+    scale: 0.75;
   }
   to {
-    transform: scale(1);
+    scale: 1;
   }
 }

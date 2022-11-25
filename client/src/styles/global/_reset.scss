@@ -39,3 +39,14 @@ em {
 svg {
   display: block;
 }
+
+input,
+textarea,
+select {
+  &:-webkit-autofill,
+  &:-webkit-autofill:hover,
+  &:-webkit-autofill:focus {
+    transition: background-color 0s 5000s;
+    -webkit-text-fill-color: color(gray, 700);
+  }
+}

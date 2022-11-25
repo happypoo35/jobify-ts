@@ -6,12 +6,13 @@ import s from "./input.module.scss";
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
   error?: string;
+  variant?: string;
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps & UseFormRegisterReturn>(
-  ({ error, label, ...props }, ref) => {
+  ({ error, label, variant, ...props }, ref) => {
     return (
-      <div className={s.field} data-error={error}>
+      <div className={s.field} data-error={error} data-variant={variant}>
         <input
           {...props}
           ref={ref}

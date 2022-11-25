@@ -4,11 +4,11 @@ import { useSearchParams } from "react-router-dom";
 import { JobsQuery, useGetAllJobsQuery } from "@/app/jobs.api";
 
 import { SORT_OPTS, STATUS_OPTS, TYPE_OPTS } from "@/utils/constants";
-import { ReactComponent as Spinner } from "@/assets/spinner.svg";
 import Filters from "./filters";
 import Card from "./card";
 import Pagination from "./pagination";
 import EmptyJobs from "./emptyJobs";
+import Loader from "./loader";
 
 import s from "./jobs.module.scss";
 
@@ -45,11 +45,7 @@ const Jobs = () => {
   }, [queryParams, setSearchParams]);
 
   if (!data) {
-    return (
-      <div className={s.loading}>
-        <Spinner style={{ fontSize: "3rem" }} />
-      </div>
-    );
+    return <Loader />;
   }
 
   if (data.total === 0) {
@@ -65,11 +61,7 @@ const Jobs = () => {
         params={params}
       />
       <section className={s.list} role="list">
-        {(isLoading || isFetching) && (
-          <div className={s.cover}>
-            <Spinner style={{ fontSize: "3rem" }} />
-          </div>
-        )}
+        {(isLoading || isFetching) && <Loader data-cover />}
         {data?.jobs.map((el) => (
           <Card key={el._id} job={el} />
         ))}

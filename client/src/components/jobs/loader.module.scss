@@ -1,0 +1,18 @@
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+
+  &[data-cover] {
+    position: absolute;
+    width: 100%;
+    background: rgba(color(gray, 50), 0.7);
+    z-index: 1;
+  }
+
+  svg {
+    position: fixed;
+    top: 50vh;
+  }
+}

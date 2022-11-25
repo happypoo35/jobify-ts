@@ -10,7 +10,11 @@
 
   &[data-error] {
     input {
-      box-shadow: inset 0 -1px 0 color(red, 450);
+      box-shadow: inset 0 -1px 0 color(red, 450) !important;
+    }
+
+    label {
+      color: color(red, 450) !important;
     }
   }
 
@@ -49,11 +53,11 @@
   label {
     position: absolute;
     top: 50%;
-    transform: translateY(-50%);
+    translate: 0 -50%;
     left: 1rem;
     text-transform: capitalize;
     color: color(gray, 300);
-    transition: 150ms ease;
+    transition: 200ms ease;
     pointer-events: none;
   }
 
@@ -61,5 +65,17 @@
     font-size: 0.75rem;
     color: color(red, 450);
     margin-left: 0.75rem;
+  }
+
+  &[data-variant="standart"] {
+    input {
+      padding: 1rem 0 0;
+      background: none;
+    }
+
+    label {
+      left: 0;
+      top: 60%;
+    }
   }
 }

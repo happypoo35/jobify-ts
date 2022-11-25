@@ -19,12 +19,7 @@ interface Props {
   params: Partial<JobsQuery>;
 }
 
-const Filters = ({
-  jobsCount = 0,
-  page,
-  limit,
-  params,
-}: Props) => {
+const Filters = ({ jobsCount = 0, page, limit, params }: Props) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const defaultValues = useMemo(
@@ -101,7 +96,12 @@ const Filters = ({
   return (
     <div className={s.container}>
       <form>
-        <Input label="search" autoComplete="off" {...register("search")} />
+        <Input
+          label="search"
+          autoComplete="off"
+          variant="standart"
+          {...register("search")}
+        />
         <Select
           name="status"
           options={["all", ...STATUS_OPTS]}
@@ -109,6 +109,7 @@ const Filters = ({
           setValue={setValue}
           register={register}
           setURLParam={setURLParam}
+          variant="standart"
         />
         <Select
           name="jobType"
@@ -118,6 +119,7 @@ const Filters = ({
           setValue={setValue}
           register={register}
           setURLParam={setURLParam}
+          variant="standart"
         />
         <Select
           name="sort"
@@ -126,6 +128,7 @@ const Filters = ({
           setValue={setValue}
           register={register}
           setURLParam={setURLParam}
+          variant="standart"
         />
       </form>
       <div className={s.stats}>

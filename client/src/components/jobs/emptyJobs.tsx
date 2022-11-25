@@ -1,7 +1,8 @@
+import { useCreateMockJobsMutation } from "@/app/jobs.api";
+
 import { ReactComponent as Empty } from "@/assets/empty.svg";
 import { ButtonLink } from "../shared/button";
-
-import { useCreateMockJobsMutation } from "@/app/jobs.api";
+import Loader from "./loader";
 
 import s from "./emptyJobs.module.scss";
 
@@ -10,13 +11,16 @@ const EmptyJobs = () => {
     useCreateMockJobsMutation();
 
   const onClick = async () => {
-    if (!isLoading || !isSuccess) {
-      await createMockJobs();
+    try {
+      await createMockJobs().unwrap();
+    } catch (err) {
+      console.log(err);
     }
   };
 
   return (
     <section className={s.section}>
+      {(isLoading || isSuccess) && <Loader data-cover />}
       <Empty />
       <article>
         <h2 data-h3>Nothing to show</h2>

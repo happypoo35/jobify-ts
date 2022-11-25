@@ -19,6 +19,7 @@ type SelectProps<T extends FieldValues> = {
   label?: string;
   error?: string;
   selected?: string;
+  variant?: string;
   setValue: UseFormSetValue<T>;
   register: UseFormRegister<T>;
   setURLParam?: (key: string, value: string) => void;
@@ -30,6 +31,7 @@ const Select = <T extends FieldValues>({
   label,
   error,
   selected,
+  variant,
   setValue,
   register,
   setURLParam,
@@ -48,6 +50,7 @@ const Select = <T extends FieldValues>({
     <div
       className={[sInput.field, s.select].join(" ")}
       data-error={error}
+      data-variant={variant}
       data-active={show || undefined}
       onClick={() => setShow((p) => !p)}
       ref={selectRef}

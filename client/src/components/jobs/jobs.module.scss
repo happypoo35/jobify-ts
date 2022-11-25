@@ -82,25 +82,3 @@ $grid-item-max-width: calc((100% - $grid-gap-width) / $grid-column-count);
     color: color(gray, 500);
   }
 }
-
-.loading {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-}
-
-.cover {
-  position: absolute;
-  z-index: 1;
-  display: flex;
-  justify-content: center;
-  background: rgba(color(gray, 50), 0.7);
-  width: 100%;
-  height: 100%;
-
-  svg {
-    position: absolute;
-    top: 20vh;
-  }
-}

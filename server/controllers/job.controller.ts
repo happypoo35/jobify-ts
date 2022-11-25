@@ -19,7 +19,7 @@ export const createMockJobs = async (req: Request, res: Response) => {
     .map((job) => ({ ...job, createdBy: req.user._id }));
   await jobModel.create(jobs);
 
-  res.status(201).send("Mock jobs added");
+  res.status(201).json({ msg: "Mock jobs added" });
 };
 
 export const createJob = async (req: Request, res: Response) => {
