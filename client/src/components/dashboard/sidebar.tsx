@@ -1,6 +1,13 @@
 import { Dispatch, SetStateAction, useEffect, useRef } from "react";
-import { FiPieChart, FiUser, FiFilePlus, FiLayers } from "react-icons/fi";
+import {
+  FiPieChart,
+  FiUser,
+  FiFilePlus,
+  FiLayers,
+  FiLogOut,
+} from "react-icons/fi";
 import { NavLink } from "react-router-dom";
+
 import { useOutsideClick } from "@/hooks";
 import { Logo } from "../shared";
 
@@ -38,9 +45,10 @@ interface Props {
   sidebar: SidebarObj;
   setSidebar: Dispatch<SetStateAction<SidebarObj>>;
   tablet: boolean;
+  handleLogout: () => Promise<void>;
 }
 
-const Sidebar = ({ sidebar, setSidebar, tablet }: Props) => {
+const Sidebar = ({ sidebar, setSidebar, tablet, handleLogout }: Props) => {
   const sidebarRef = useRef(null);
 
   const handleClose = () => {
@@ -76,18 +84,26 @@ const Sidebar = ({ sidebar, setSidebar, tablet }: Props) => {
           <Logo />
         </header>
         <nav>
-          {navItems.map((el, id) => (
-            <NavLink
-              to={el.slug}
-              end
-              key={id}
-              className={({ isActive }) => (isActive ? s.active : undefined)}
-              onClick={() => tablet && handleClose()}
-            >
-              {el.icon}
-              {el.name}
-            </NavLink>
-          ))}
+          <div>
+            {navItems.map((el, id) => (
+              <NavLink
+                to={el.slug}
+                end
+                key={id}
+                className={({ isActive }) => (isActive ? s.active : undefined)}
+                onClick={() => tablet && handleClose()}
+              >
+                {el.icon}
+                {el.name}
+              </NavLink>
+            ))}
+          </div>
+          {tablet && (
+            <span onClick={handleLogout}>
+              <FiLogOut />
+              Logout
+            </span>
+          )}
         </nav>
       </div>
     </aside>

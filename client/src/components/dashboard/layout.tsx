@@ -42,7 +42,12 @@ const Layout = () => {
 
   return (
     <div className={s.dashboard}>
-      <Sidebar sidebar={sidebar} tablet={tablet} setSidebar={setSidebar} />
+      <Sidebar
+        sidebar={sidebar}
+        tablet={tablet}
+        setSidebar={setSidebar}
+        handleLogout={handleLogout}
+      />
       <div className={s.content}>
         <header className={s.header}>
           <div data-container>
@@ -55,9 +60,11 @@ const Layout = () => {
             </button>
             <h1 data-h3>Dashboard</h1>
             <Logo className={s.logo} />
-            <Button onClick={handleLogout} isLoading={isLoading}>
-              Logout
-            </Button>
+            {!tablet && (
+              <Button onClick={handleLogout} isLoading={isLoading}>
+                Logout
+              </Button>
+            )}
           </div>
         </header>
         <main data-container>
