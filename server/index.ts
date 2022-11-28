@@ -4,6 +4,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
 import helmet from "helmet";
+import compression from "compression";
 import path from "path";
 import express, { Request, Response } from "express";
 import "express-async-errors";
@@ -16,6 +17,7 @@ const app = express();
 const staticPath =
   process.env.NODE_ENV === "production" ? "../client" : "../client/dist";
 
+app.use(compression());
 app.use(express.static(path.resolve(__dirname, staticPath)));
 
 if (process.env.NODE_ENV === "development") {
