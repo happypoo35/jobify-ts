@@ -10,14 +10,18 @@ export const rootLoader = async () => {
 
     promise.unsubscribe();
   }
+
+  return null;
 };
 
 export const authLoader = () => {
   if (document.cookie.includes("auth_session")) throw redirect("/");
+  return null;
 };
 
 export const protectLoader = () => {
   if (!document.cookie.includes("auth_session")) throw redirect("/login");
+  return null;
 };
 
 export const jobsLoader = async () => {
@@ -25,6 +29,7 @@ export const jobsLoader = async () => {
   await promise;
 
   promise.unsubscribe();
+  return null;
 };
 
 export const jobLoader = async ({ params }: { params: Params }) => {
@@ -34,4 +39,5 @@ export const jobLoader = async ({ params }: { params: Params }) => {
     );
     await promise;
   }
+  return null;
 };
