@@ -14,8 +14,6 @@ import {
   Job,
   Error,
 } from "./components";
-
-import "@/styles/globals.scss";
 import {
   authLoader,
   jobLoader,
@@ -23,6 +21,8 @@ import {
   protectLoader,
   rootLoader,
 } from "./utils/loaders";
+
+import "@/styles/globals.scss";
 
 const router = createBrowserRouter([
   {
